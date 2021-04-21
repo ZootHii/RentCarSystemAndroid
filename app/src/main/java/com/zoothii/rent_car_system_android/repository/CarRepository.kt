@@ -195,6 +195,29 @@ class CarRepository {
         return carDetailDataResponse
     }
 
+    fun getAllCarsDetailsWithPreviewFirstImage(): MutableLiveData<DataResponseModel<CarDetail>> {
+        carService.getAllCarsDetailsWithPreviewFirstImage().enqueue(object : Callback<DataResponseModel<CarDetail>> {
+            override fun onResponse(
+                call: Call<DataResponseModel<CarDetail>>,
+                response: Response<DataResponseModel<CarDetail>>
+            ) {
+                if (response.isSuccessful) {
+                    carDetailDataResponse.value = response.body();
+                } else {
+                    Log.d("Error", response.message().toString())
+                    Log.d("Error", response.toString())
+
+                    Helper.handleError(response.errorBody()!!.string())
+                }
+            }
+
+            override fun onFailure(call: Call<DataResponseModel<CarDetail>>, t: Throwable) {
+                Log.d("Failure", t.message.toString())
+            }
+        })
+        return carDetailDataResponse
+    }
+
     fun getCarsDetailsByColorId(colorId: Int): MutableLiveData<DataResponseModel<CarDetail>> {
         carService.getCarsDetailsByColorId(colorId).enqueue(object : Callback<DataResponseModel<CarDetail>> {
             override fun onResponse(

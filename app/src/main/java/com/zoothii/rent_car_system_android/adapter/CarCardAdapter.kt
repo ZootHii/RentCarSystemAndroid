@@ -49,7 +49,7 @@ class CarCardAdapter(private val carDetailList: List<CarDetail>/*, private val c
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)*/
 
             /*Log.d("IMAGE PATH", currentCarDetailItem.previewCarImage)*/
-            itemBinding.carCardImage.setImageBitmap(Helper.base64StringToBitmap(currentCarDetailItem.previewCarImage))
+            itemBinding.carCardImage.setImageBitmap(Helper.base64StringToBitmap(currentCarDetailItem.previewFirstImage))
         }
     }
 

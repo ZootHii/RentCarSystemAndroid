@@ -69,6 +69,12 @@ class CarViewModel (/*private val repository: CarRepository*/) : ViewModel() {
         }
     }
 
+    fun getAllCarsDetailsWithPreviewFirstImage() {
+        viewModelScope.launch {
+            carDetailDataResponse = repository.getAllCarsDetailsWithPreviewFirstImage()
+        }
+    }
+
     /*fun getAllCars():  MutableLiveData<DataResponseModel<Car>> {
     viewModelScope.launch {
         carDataResponse = repository.getAllCars()

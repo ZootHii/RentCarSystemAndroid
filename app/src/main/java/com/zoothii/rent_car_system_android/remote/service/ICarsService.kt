@@ -34,6 +34,9 @@ interface ICarsService {
     @GET("Cars/get/all/details")
     fun getAllCarsDetails(): Call<DataResponseModel<CarDetail>>
 
+    @GET("Cars/get/all/details/with/preview/first/image")
+    fun getAllCarsDetailsWithPreviewFirstImage(): Call<DataResponseModel<CarDetail>>
+
     @GET("Cars/get/all/details/by/color/id")
     fun getCarsDetailsByColorId(@Query("colorId") colorId: Int): Call<DataResponseModel<CarDetail>>
 
