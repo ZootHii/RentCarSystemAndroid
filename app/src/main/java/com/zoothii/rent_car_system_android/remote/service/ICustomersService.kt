@@ -24,10 +24,10 @@ interface ICustomersService {
     @POST("Customers/delete")
     fun deleteCustomer(@Body customer: Customer): Call<ResponseModel>
 
-    @POST("Customers/get/all/details")
+    @GET("Customers/get/all/details")
     fun getCustomersDetails(@Body customer: Customer): Call<DataResponseModel<Customer>>
 
-    @POST("Customers/get/by/user/id")
+    @GET("Customers/get/by/user/id")
     fun getCustomerByUserId(@Query("userId") userId: Int): Call<SingleDataResponseModel<Customer>>
 
 

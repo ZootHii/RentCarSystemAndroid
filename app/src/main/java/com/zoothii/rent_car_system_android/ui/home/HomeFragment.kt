@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,20 +13,220 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zoothii.rent_car_system_android.R
 import com.zoothii.rent_car_system_android.adapter.CarCardAdapter
 import com.zoothii.rent_car_system_android.model.Car
+import com.zoothii.rent_car_system_android.model.CarDetail
+import com.zoothii.rent_car_system_android.model.CarImage
+import com.zoothii.rent_car_system_android.view.CarImageViewModel
 import com.zoothii.rent_car_system_android.view.CarViewModel
 
 class HomeFragment : Fragment() {
 
     //private lateinit var homeViewModel: HomeViewModel
     private lateinit var carViewModel: CarViewModel
+    private lateinit var carImageViewModel: CarImageViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var cars: List<Car>
+    private lateinit var carDetailList: List<CarDetail>
+    private var carImageList: ArrayList<CarImage> = ArrayList()
+    private var carImageList2: ArrayList<Int> = ArrayList()
+    private lateinit var carImage: CarImage
+    private var count: Int = 0
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+
+        val root = inflater.inflate(R.layout.fragment_home, container, false)
+
+        carViewModel = ViewModelProvider(this).get(CarViewModel::class.java)
+        carImageViewModel = ViewModelProvider(this).get(CarImageViewModel::class.java)
+
+        fun setCarDetailsRecyclerView(carDetailList: List<CarDetail>){
+            recyclerView = root.findViewById(R.id.recycler_view)
+            recyclerView.adapter = CarCardAdapter(carDetailList)
+            recyclerView.layoutManager = LinearLayoutManager(context)
+        }
+
+/*        carViewModel.getAllCars()
+        carViewModel.carDataResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response.success){
+                Log.d("Message", response.message.toString())
+                Log.d("Success", response.success.toString())
+                for (car in response.data){
+                    Log.d("Response CAR", car.toString())
+                }
+                cars = response.data.toCollection(ArrayList())
+                setRecyclerView(cars)
+                CarCardAdapter(cars).notifyDataSetChanged()
+            }
+            else
+            {
+                Log.d("Message", response.message.toString())
+                Log.d("Success", response.success.toString())
+            }
+        })*/
+
+        carViewModel.getAllCarsDetails()
+
+        carViewModel.carDetailDataResponse.observe(viewLifecycleOwner, Observer { responseCarDetailData ->
+            if (responseCarDetailData.success){
+/*                Log.d("Message", responseCarDetailData.message.toString())
+                Log.d("Success", responseCarDetailData.success.toString())
+                for (car in responseCarDetailData.data){
+                    Log.d("Response CAR", car.toString())
+                }*/
+                carDetailList = responseCarDetailData.data.toCollection(ArrayList())
+
+                carImageViewModel.getAllCarImages()
+                carImageViewModel.carImageDataResponse.observe(viewLifecycleOwner, Observer { responseCarImageData->
+
+                    if (responseCarImageData.success){
+
+                        carImageList = responseCarImageData.data.toCollection(ArrayList())
+
+                        for (car in responseCarImageData.data){
+                            Log.d("Response CAR", car.toString())
+                        }
+                        // carimage in carid si car listteki car id ile eşleşen ilk resmi getir
+
+
+                        for (i in carImageList.indices){
+                            for (j in carDetailList.indices){
+                                if (carDetailList[j].id == carImageList[i].carId && carDetailList[j].previewCarImage.isNullOrEmpty()){
+                                    carDetailList[j].previewCarImage = carImageList[i].imagePath
+                                }
+                                if (carDetailList[j].previewCarImage.isNullOrEmpty()){
+                                    carDetailList[j].previewCarImage = ""
+                                }
+                            }
+
+                        }
+
+
+
+
+                        setCarDetailsRecyclerView(carDetailList)
+                        CarCardAdapter(carDetailList).notifyDataSetChanged()
+
+
+                    }
+
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //Log.d("SİZE CAR", carDetailList.size.toString())
+
+
+
+                /*for (i in carDetailList.indices){ // single for loop in kotlin ÇOK SAÇMA
+
+
+                    count++
+                    Log.d("EZİYET", count.toString())
+                    //carImageViewModel.getCarImagesByCarId(carDetailList[i].id) // test
+                    //Log.d("INDEX", carDetailList[i].id.toString())
+                    carDetailList.forEach { carDetail ->
+                        if (carDetail.previewCarImage.isNullOrEmpty()){
+                            carDetail.previewCarImage = ""
+                        }
+                    }
+
+                    *//*carImageViewModel.getCarPreviewFirstImageByCarId(carDetailList[i].id)
+                    carImageViewModel.carImageSingleDataResponse.observe(viewLifecycleOwner, Observer { responseCarImageSingleData ->
+                        if (responseCarImageSingleData.success){
+                            *//**//*Log.d("Message", responseCarImageSingleData.message.toString())
+                            Log.d("Success", responseCarImageSingleData.success.toString())*//**//*
+
+                            carImage = responseCarImageSingleData.data
+
+                            //carImageList2.add(i)
+                            //carImageList.add(carImage)
+
+                            //Log.d("IMAGE", carImage.carId.toString() +" "+ carImage.id.toString())
+                            *//**//*count++
+                            Log.d("EZİYET", count.toString())*//**//*
+                            carDetailList[i].previewCarImage = carImage.imagePath
+
+                            setCarDetailsRecyclerView(carDetailList)
+                            CarCardAdapter(carDetailList).notifyDataSetChanged()
+                        }
+                        else{
+                            Log.d("Message", responseCarImageSingleData.message.toString())
+                            Log.d("Success", responseCarImageSingleData.success.toString())
+                        }
+
+
+
+
+                        *//**//*setCarDetailsRecyclerView(carDetailList)
+                        CarCardAdapter(carDetailList).notifyDataSetChanged()
+                        Log.d("SİZE CAR", carDetailList.size.toString())
+                        Log.d("SİZE image", carImageList2.size.toString())*//**//*
+
+
+
+                    })*//*
+
+                    // TEST
+                    *//*carImageViewModel.carImageDataResponse.observe(viewLifecycleOwner, Observer { responseCarImageData ->
+                        if (responseCarImageData.success){
+                            Log.d("Message", responseCarImageData.message.toString())
+                            Log.d("Success", responseCarImageData.success.toString())
+
+                            for (car in responseCarImageData.data){
+                                Log.d("Response CAR IMAGE", car.toString())
+                            }
+
+                            carImageList = responseCarImageData.data.toCollection(ArrayList())
+                        }
+                        else{
+                            Log.d("Message", responseCarImageData.message.toString())
+                            Log.d("Success", responseCarImageData.success.toString())
+                        }
+                    })*//*
+
+                }*/
+
+
+            }
+            else
+            {
+                Log.d("Message", responseCarDetailData.message.toString())
+                Log.d("Success", responseCarDetailData.success.toString())
+            }
+        })
+
+
+
+
+
+
+        return root
+    }
+
+}
+
+
+//carViewModel = ViewModelProvider(this).get(CarViewModel(CarRepository.create())::class.java)
+
+
 /*        homeViewModel =
                 ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
@@ -37,11 +235,41 @@ class HomeFragment : Fragment() {
             textView.text = it
         })*/
 
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
+/*setRecylerView(cars)*/
 
-        carViewModel = ViewModelProvider(this).get(CarViewModel::class.java)
 
-        carViewModel.getAllCars().observe(viewLifecycleOwner, Observer { response ->
+/*        val nameObserver = Observer<DataResponseModel<Car>> { response ->
+            if (response.success){
+                Log.d("Message", response.success.toString())
+                Log.d("Success", response.success.toString())
+
+                cars = response.data.toCollection(ArrayList())
+
+                setRecylerView(cars)
+            }
+        }
+
+        carViewModel.currentName.observe(viewLifecycleOwner, nameObserver)*/
+
+/*carViewModel.currentName.observe(viewLifecycleOwner, Observer { response ->
+    if (response.success){
+        Log.d("Message", response.message.toString())
+        Log.d("Success", response.success.toString())
+        for (car in response.data){
+            Log.d("Response CAR", car.toString())
+        }
+        cars = response.data.toCollection(ArrayList())
+        setRecylerView(cars)
+    }
+    else
+    {
+        Log.d("Message", response.message.toString())
+        Log.d("Success", response.success.toString())
+    }
+
+})*/
+
+/*carViewModel.getAllCars().observe(viewLifecycleOwner, Observer { response ->
             if (response.success){
                 Log.d("Message", response.message.toString())
                 Log.d("Success", response.success.toString())
@@ -49,19 +277,22 @@ class HomeFragment : Fragment() {
                     Log.d("Response CAR", car.toString())
                 }
                 cars = response.data.toCollection(ArrayList())
-                recyclerView = root.findViewById(R.id.recycler_view)
-                recyclerView.adapter = CarCardAdapter(cars)
-                recyclerView.layoutManager = LinearLayoutManager(context)
+                //setRecylerView(cars)
+                CarCardAdapter(cars).notifyDataSetChanged()
             }
             else
             {
                 Log.d("Message", response.message.toString())
                 Log.d("Success", response.success.toString())
             }
-        })
+        })*/
 
 
-        return root
-    }
 
-}
+/*        CarRepository.create().getAllCars().observe(viewLifecycleOwner, Observer { response ->
+            if (response.success){
+                cars = response.data.toCollection(ArrayList())
+                setRecylerView(cars)
+                Log.d("AHMET", "aaaa")
+            }
+        })*/

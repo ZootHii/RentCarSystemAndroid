@@ -1,38 +1,59 @@
 package com.zoothii.rent_car_system_android.adapter
 
+import android.graphics.BitmapFactory
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zoothii.rent_car_system_android.databinding.CardviewCarItemBinding
-import com.zoothii.rent_car_system_android.model.Car
+import com.zoothii.rent_car_system_android.model.CarDetail
+import com.zoothii.rent_car_system_android.model.CarImage
+import com.zoothii.rent_car_system_android.util.Helper
 
 
-class CarCardAdapter(private val carList: List<Car>): RecyclerView.Adapter<CarCardAdapter.CarCardViewHolder>() {
+class CarCardAdapter(private val carDetailList: List<CarDetail>/*, private val carImageList: List<CarImage>*/): RecyclerView.Adapter<CarCardAdapter.CarCardViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarCardViewHolder {
-        val itemBinding = CardviewCarItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding = CardviewCarItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return CarCardViewHolder(itemBinding)
 
     }
 
     override fun onBindViewHolder(holder: CarCardViewHolder, position: Int) {
-        val currentCarItem: Car = carList[position]
-        holder.bind(currentCarItem)
+        val currentCarDetailItem: CarDetail = carDetailList[position]
+        /*val currentCarImageItem: CarImage = carImageList[position]*/
+        holder.bind(currentCarDetailItem/*, currentCarImageItem*/)
     }
 
     override fun getItemCount(): Int {
-        return carList.size
+        // image and car size equal
+        return carDetailList.size
     }
 
-    class CarCardViewHolder(private val itemBinding: CardviewCarItemBinding) : RecyclerView.ViewHolder(itemBinding.root){
-        fun bind(currentCarItem: Car){
-            itemBinding.carCardBrandName.text = currentCarItem.brandId.toString()
-            itemBinding.carCardColorName.text = currentCarItem.colorId.toString()
-            itemBinding.carCardModelYear.text = currentCarItem.modelYear
-            itemBinding.carCardDescription.text = currentCarItem.description
-            itemBinding.carCardDailyPrice.text = currentCarItem.dailyPrice.toString()
+    class CarCardViewHolder(private val itemBinding: CardviewCarItemBinding) : RecyclerView.ViewHolder(
+        itemBinding.root
+    ){
+        fun bind(currentCarDetailItem: CarDetail/*, currentCarImageItem: CarImage*/){
+            itemBinding.carCardBrandName.text = currentCarDetailItem.brandName
+            itemBinding.carCardColorName.text = currentCarDetailItem.colorName
+            itemBinding.carCardModelYear.text = Helper.dateTimeStringFormat(currentCarDetailItem.modelYear, "yyyy")
+            itemBinding.carCardDescription.text = currentCarDetailItem.description
+            itemBinding.carCardDailyPrice.text = currentCarDetailItem.dailyPrice.toString()
+
+            /*val imageBytes = Base64.decode("base64String", Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)*/
+
+            /*Log.d("IMAGE PATH", currentCarDetailItem.previewCarImage)*/
+            itemBinding.carCardImage.setImageBitmap(Helper.base64StringToBitmap(currentCarDetailItem.previewCarImage))
         }
     }
+
+
 
 
 }

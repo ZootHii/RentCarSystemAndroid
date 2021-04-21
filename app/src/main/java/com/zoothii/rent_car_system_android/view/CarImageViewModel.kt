@@ -5,29 +5,29 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zoothii.rent_car_system_android.model.Car
 import com.zoothii.rent_car_system_android.model.CarDetail
+import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.model.response.DataResponseModel
 import com.zoothii.rent_car_system_android.model.response.ResponseModel
 import com.zoothii.rent_car_system_android.model.response.SingleDataResponseModel
+import com.zoothii.rent_car_system_android.repository.CarImageRepository
 import com.zoothii.rent_car_system_android.repository.CarRepository
 import kotlinx.coroutines.launch
 
-class CarViewModel (/*private val repository: CarRepository*/) : ViewModel() {
+class CarImageViewModel () : ViewModel() {
 
-    private val repository: CarRepository = CarRepository()
+    private val repository: CarImageRepository = CarImageRepository()
 
-    lateinit var carDataResponse: MutableLiveData<DataResponseModel<Car>>
-    lateinit var carDetailDataResponse: MutableLiveData<DataResponseModel<CarDetail>>
-    lateinit var carDetailSingleDataResponse: MutableLiveData<SingleDataResponseModel<CarDetail>>
-    lateinit var carSingleDataResponse: MutableLiveData<SingleDataResponseModel<Car>>
+    lateinit var carImageDataResponse: MutableLiveData<DataResponseModel<CarImage>>
+    lateinit var carImageSingleDataResponse: MutableLiveData<SingleDataResponseModel<CarImage>>
     lateinit var carResponse: MutableLiveData<ResponseModel>
 
-    fun getAllCars() {
+    fun getAllCarImages() {
         viewModelScope.launch {
-            carDataResponse = repository.getAllCars()
+            carImageDataResponse = repository.getAllCarImages()
         }
     }
 
-    fun getCarById(id: Int) {
+    /*fun getCarById(id: Int) {
         viewModelScope.launch {
             carSingleDataResponse = repository.getCarById(id)
         }
@@ -67,17 +67,19 @@ class CarViewModel (/*private val repository: CarRepository*/) : ViewModel() {
         viewModelScope.launch {
             carDetailDataResponse = repository.getAllCarsDetails()
         }
-    }
-
-    /*fun getAllCars():  MutableLiveData<DataResponseModel<Car>> {
-    viewModelScope.launch {
-        carDataResponse = repository.getAllCars()
-    }
-    return carDataResponse
-}*/
-
-/*    val currentName: MutableLiveData<DataResponseModel<Car>> by lazy {
-        repository.getAllCars()
     }*/
+
+    fun getCarImagesByCarId(carId: Int){
+        viewModelScope.launch {
+            carImageDataResponse = repository.getCarImagesByCarId(carId)
+        }
+    }
+
+    fun getCarPreviewFirstImageByCarId(carId: Int){
+        viewModelScope.launch {
+            carImageSingleDataResponse = repository.getCarPreviewFirstImageByCarId(carId)
+        }
+    }
+
 
 }

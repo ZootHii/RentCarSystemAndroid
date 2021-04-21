@@ -9,6 +9,7 @@ import com.zoothii.rent_car_system_android.model.response.SingleDataResponseMode
 import com.zoothii.rent_car_system_android.remote.RetrofitService
 import com.zoothii.rent_car_system_android.remote.service.ICarImagesService
 import com.zoothii.rent_car_system_android.util.ErrorHandler
+import com.zoothii.rent_car_system_android.util.Helper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +38,7 @@ class CarImageRepository {
                 if (response.isSuccessful) {
                     carImageDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -57,7 +58,7 @@ class CarImageRepository {
                 if (response.isSuccessful) {
                     carImageSingleDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -77,7 +78,7 @@ class CarImageRepository {
                 if (response.isSuccessful) {
                     carImageResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -97,7 +98,7 @@ class CarImageRepository {
                 if (response.isSuccessful) {
                     carImageResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -117,7 +118,7 @@ class CarImageRepository {
                 if (response.isSuccessful) {
                     carImageResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -137,7 +138,7 @@ class CarImageRepository {
                 if (response.isSuccessful) {
                     carImageDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -146,5 +147,28 @@ class CarImageRepository {
             }
         })
         return carImageDataResponse
+    }
+
+    fun getCarPreviewFirstImageByCarId(carId: Int): MutableLiveData<SingleDataResponseModel<CarImage>> {
+        carImageService.getCarPreviewFirstImageByCarId(carId).enqueue(object : Callback<SingleDataResponseModel<CarImage>> {
+            override fun onResponse(
+                call: Call<SingleDataResponseModel<CarImage>>,
+                response: Response<SingleDataResponseModel<CarImage>>
+            ) {
+                if (response.isSuccessful) {
+                    carImageSingleDataResponse.value = response.body();
+                } else {
+
+                    Log.d("Error", response.toString())
+
+                    Helper.handleError(response.errorBody()!!.string())
+                }
+            }
+
+            override fun onFailure(call: Call<SingleDataResponseModel<CarImage>>, t: Throwable) {
+                Log.d("Failure", t.message.toString())
+            }
+        })
+        return carImageSingleDataResponse
     }
 }

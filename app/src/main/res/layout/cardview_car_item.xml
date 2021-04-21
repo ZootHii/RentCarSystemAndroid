@@ -21,10 +21,10 @@
             android:orientation="vertical">
 
             <ImageView
-
+                android:id="@+id/car_card_image"
                 android:layout_width="220dp"
                 android:layout_height="170dp"
-                android:background="@color/cardview_dark_background"
+
                 android:scaleType="centerCrop"
                 android:contentDescription="TODO" />
 
@@ -114,4 +114,3 @@
 
 
 </androidx.cardview.widget.CardView>
-    <!--android:id="@+id/car_card_image"-->

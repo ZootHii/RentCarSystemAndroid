@@ -10,6 +10,7 @@ import com.zoothii.rent_car_system_android.model.response.SingleDataResponseMode
 import com.zoothii.rent_car_system_android.remote.RetrofitService
 import com.zoothii.rent_car_system_android.remote.service.ICarsService
 import com.zoothii.rent_car_system_android.util.ErrorHandler
+import com.zoothii.rent_car_system_android.util.Helper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +41,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -60,7 +61,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carSingleDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -80,7 +81,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -100,7 +101,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -120,7 +121,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -140,7 +141,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -160,7 +161,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -180,7 +181,10 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carDetailDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Log.d("Error", response.message().toString())
+                    Log.d("Error", response.toString())
+
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -200,7 +204,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carDetailDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -220,7 +224,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carDetailDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -240,7 +244,7 @@ class CarRepository {
                 if (response.isSuccessful) {
                     carDetailSingleDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 

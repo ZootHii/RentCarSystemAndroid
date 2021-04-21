@@ -9,6 +9,7 @@ import com.zoothii.rent_car_system_android.model.response.SingleDataResponseMode
 import com.zoothii.rent_car_system_android.remote.RetrofitService
 import com.zoothii.rent_car_system_android.remote.service.IBrandsService
 import com.zoothii.rent_car_system_android.util.ErrorHandler
+import com.zoothii.rent_car_system_android.util.Helper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +38,7 @@ class BrandRepository {
                 if (response.isSuccessful) {
                     brandDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -57,7 +58,7 @@ class BrandRepository {
                 if (response.isSuccessful) {
                     brandSingleDataResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -77,7 +78,7 @@ class BrandRepository {
                 if (response.isSuccessful) {
                     brandResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -97,7 +98,7 @@ class BrandRepository {
                 if (response.isSuccessful) {
                     brandResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 
@@ -117,7 +118,7 @@ class BrandRepository {
                 if (response.isSuccessful) {
                     brandResponse.value = response.body();
                 } else {
-                    ErrorHandler.handleError(response.errorBody()!!.string())
+                    Helper.handleError(response.errorBody()!!.string())
                 }
             }
 

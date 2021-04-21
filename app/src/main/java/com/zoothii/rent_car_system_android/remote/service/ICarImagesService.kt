@@ -24,6 +24,10 @@ interface ICarImagesService {
     @POST("CarImages/delete")
     fun deleteCarImage(@Body carImage: CarImage): Call<ResponseModel>
 
-    @POST("CarImages/get/all/by/car/id")
+    @GET("CarImages/get/all/by/car/id")
     fun getCarImagesByCarId(@Query("carId") carId: Int): Call<DataResponseModel<CarImage>>
+
+    @GET("CarImages/get/preview/first/image/by/car/id")
+    fun getCarPreviewFirstImageByCarId(@Query("carId") carId: Int): Call<SingleDataResponseModel<CarImage>>
+
 }

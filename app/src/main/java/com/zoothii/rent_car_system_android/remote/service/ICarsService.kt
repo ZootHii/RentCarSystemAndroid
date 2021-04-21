@@ -25,22 +25,22 @@ interface ICarsService {
     @POST("Cars/delete")
     fun deleteCar(@Body car: Car): Call<ResponseModel>
 
-    @POST("Cars/get/all/by/color/id")
+    @GET("Cars/get/all/by/color/id")
     fun getCarsByColorId(@Query("colorId") colorId: Int): Call<DataResponseModel<Car>>
 
-    @POST("Cars/get/all/by/brand/id")
+    @GET("Cars/get/all/by/brand/id")
     fun getCarsByBrandId(@Query("brandId") brandId: Int): Call<DataResponseModel<Car>>
 
-    @POST("Cars/get/all/details")
+    @GET("Cars/get/all/details")
     fun getAllCarsDetails(): Call<DataResponseModel<CarDetail>>
 
-    @POST("Cars/get/all/details/by/color/id")
+    @GET("Cars/get/all/details/by/color/id")
     fun getCarsDetailsByColorId(@Query("colorId") colorId: Int): Call<DataResponseModel<CarDetail>>
 
-    @POST("Cars/get/all/details/by/brand/id")
+    @GET("Cars/get/all/details/by/brand/id")
     fun getCarsDetailsByBrandId(@Query("brandId") brandId: Int): Call<DataResponseModel<CarDetail>>
 
-    @POST("Cars/get/details/by/car/id")
+    @GET("Cars/get/details/by/car/id")
     fun getCarDetailsByCarId(@Query("carId") carId: Int): Call<SingleDataResponseModel<CarDetail>>
 
 }

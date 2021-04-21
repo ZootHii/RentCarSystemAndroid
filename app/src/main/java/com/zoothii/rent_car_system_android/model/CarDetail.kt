@@ -9,4 +9,5 @@ data class CarDetail(
     val description: String,
     val brandName: String,
     val colorName: String,
+    var previewCarImage: String,
 )
