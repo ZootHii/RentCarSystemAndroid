@@ -11,15 +11,21 @@ import com.zoothii.rent_car_system_android.model.response.SingleDataResponseMode
 import com.zoothii.rent_car_system_android.repository.CarRepository
 import kotlinx.coroutines.launch
 
-class CarViewModel (/*private val repository: CarRepository*/) : ViewModel() {
+class CarViewModel(private val repository: CarRepository) : ViewModel() {
 
-    private val repository: CarRepository = CarRepository()
+    /*private val repository: CarRepository = CarRepository()*/
 
     lateinit var carDataResponse: MutableLiveData<DataResponseModel<Car>>
-    lateinit var carDetailDataResponse: MutableLiveData<DataResponseModel<CarDetail>>
+    private lateinit var carDetailDataResponse: MutableLiveData<DataResponseModel<CarDetail>>
     lateinit var carDetailSingleDataResponse: MutableLiveData<SingleDataResponseModel<CarDetail>>
     lateinit var carSingleDataResponse: MutableLiveData<SingleDataResponseModel<Car>>
     lateinit var carResponse: MutableLiveData<ResponseModel>
+
+/*    private val ss = MutableLiveData<DataResponseModel<CarDetail>>().apply {
+        viewModelScope.launch {
+            value = repository.getAllCarsDetailsWithPreviewFirstImage().value
+        }
+    }*/
 
     fun getAllCars() {
         viewModelScope.launch {
@@ -69,10 +75,11 @@ class CarViewModel (/*private val repository: CarRepository*/) : ViewModel() {
         }
     }
 
-    fun getAllCarsDetailsWithPreviewFirstImage() {
+    fun getAllCarsDetailsWithPreviewFirstImage(): MutableLiveData<DataResponseModel<CarDetail>> {
         viewModelScope.launch {
             carDetailDataResponse = repository.getAllCarsDetailsWithPreviewFirstImage()
         }
+        return carDetailDataResponse
     }
 
     /*fun getAllCars():  MutableLiveData<DataResponseModel<Car>> {

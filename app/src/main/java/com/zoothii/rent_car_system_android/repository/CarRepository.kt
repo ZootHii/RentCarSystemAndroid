@@ -18,9 +18,9 @@ import retrofit2.Response
 
 class CarRepository {
 
-    companion object Factory {
+/*    companion object Factory {
         fun create(): CarRepository = CarRepository()
-    }
+    }*/
 
     private val carService: ICarsService by lazy {
         RetrofitService.buildService(ICarsService::class.java)

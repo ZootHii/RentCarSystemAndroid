@@ -14,12 +14,14 @@ import com.zoothii.rent_car_system_android.adapter.CarCardAdapter
 import com.zoothii.rent_car_system_android.model.Car
 import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.model.CarImage
+import com.zoothii.rent_car_system_android.repository.CarRepository
 import com.zoothii.rent_car_system_android.view.CarImageViewModel
 import com.zoothii.rent_car_system_android.view.CarViewModel
+import com.zoothii.rent_car_system_android.view.CarViewModelFactory
+
 
 class HomeFragment : Fragment() {
-
-    //private lateinit var homeViewModel: HomeViewModel
+    
     private lateinit var carViewModel: CarViewModel
     private lateinit var carImageViewModel: CarImageViewModel
     private lateinit var recyclerView: RecyclerView
@@ -29,6 +31,8 @@ class HomeFragment : Fragment() {
     private var carImageList2: ArrayList<Int> = ArrayList()
     private lateinit var carImage: CarImage
     private var count: Int = 0
+    private lateinit var carCardAdapter: CarCardAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,28 +42,35 @@ class HomeFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        carViewModel = ViewModelProvider(this).get(CarViewModel::class.java)
-        carImageViewModel = ViewModelProvider(this).get(CarImageViewModel::class.java)
+        val carRepository = CarRepository()
+        val carViewModelFactory = CarViewModelFactory(carRepository)
+        carViewModel = ViewModelProvider(this, carViewModelFactory).get(CarViewModel::class.java)
+        //carImageViewModel = ViewModelProvider(this).get(CarImageViewModel::class.java)
 
-        fun setCarDetailsRecyclerView(carDetailList: List<CarDetail>) {
-            recyclerView = view.findViewById(R.id.recycler_view)
-            recyclerView.adapter = CarCardAdapter(carDetailList)
-            recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView = view.findViewById(R.id.recycler_view)
+
+        carCardAdapter = CarCardAdapter(view.context) { carDetail ->
+            Log.d("CLICK", carDetail.id.toString())
+            Log.d("CLICK", carDetail.description)
+            Log.d("CLICK", carDetail.dailyPrice.toString())
         }
 
-        carViewModel.getAllCarsDetailsWithPreviewFirstImage()
 
-        carViewModel.carDetailDataResponse.observe(viewLifecycleOwner, { responseCarDetailData ->
+        recyclerView.adapter = carCardAdapter
+        recyclerView.layoutManager = LinearLayoutManager(view.context)
+
+        carViewModel.getAllCarsDetailsWithPreviewFirstImage().observe(viewLifecycleOwner, { responseCarDetailData ->
             if (responseCarDetailData.success) {
                 carDetailList = responseCarDetailData.data.toCollection(ArrayList())
-                setCarDetailsRecyclerView(carDetailList)
 
+                carCardAdapter.setCarDetails(carDetailList)
 
             } else {
                 Log.d("Message", responseCarDetailData.message.toString())
                 Log.d("Success", responseCarDetailData.success.toString())
             }
         })
+
 
         return view
     }
