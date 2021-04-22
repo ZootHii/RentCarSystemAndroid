@@ -21,18 +21,15 @@ class CarViewModel(private val repository: CarRepository) : ViewModel() {
     lateinit var carSingleDataResponse: MutableLiveData<SingleDataResponseModel<Car>>
     lateinit var carResponse: MutableLiveData<ResponseModel>
 
-/*    private val ss = MutableLiveData<DataResponseModel<CarDetail>>().apply {
-        viewModelScope.launch {
-            value = repository.getAllCarsDetailsWithPreviewFirstImage().value
-        }
-    }*/
 
-    fun getAllCars() {
+    fun getAllCars(): MutableLiveData<DataResponseModel<Car>> {
         viewModelScope.launch {
             carDataResponse = repository.getAllCars()
         }
+        return carDataResponse
     }
 
+/*
     fun getCarById(id: Int) {
         viewModelScope.launch {
             carSingleDataResponse = repository.getCarById(id)
@@ -68,11 +65,13 @@ class CarViewModel(private val repository: CarRepository) : ViewModel() {
             carDataResponse = repository.getCarsByBrandId(brandId)
         }
     }
+*/
 
-    fun getAllCarsDetails() {
+    fun getAllCarsDetails(): MutableLiveData<DataResponseModel<CarDetail>> {
         viewModelScope.launch {
             carDetailDataResponse = repository.getAllCarsDetails()
         }
+        return carDetailDataResponse
     }
 
     fun getAllCarsDetailsWithPreviewFirstImage(): MutableLiveData<DataResponseModel<CarDetail>> {
@@ -82,12 +81,6 @@ class CarViewModel(private val repository: CarRepository) : ViewModel() {
         return carDetailDataResponse
     }
 
-    /*fun getAllCars():  MutableLiveData<DataResponseModel<Car>> {
-    viewModelScope.launch {
-        carDataResponse = repository.getAllCars()
-    }
-    return carDataResponse
-}*/
 
 /*    val currentName: MutableLiveData<DataResponseModel<Car>> by lazy {
         repository.getAllCars()

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.zoothii.rent_car_system_android.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:name="com.zoothii.rent_car_system_android.ui.home.CarsDetailFragment"
+        android:label="@string/title_cars_detail"
+        tools:layout="@layout/fragment_cars_detail" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

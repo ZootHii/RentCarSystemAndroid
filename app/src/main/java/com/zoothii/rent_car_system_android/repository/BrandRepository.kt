@@ -8,7 +8,6 @@ import com.zoothii.rent_car_system_android.model.response.ResponseModel
 import com.zoothii.rent_car_system_android.model.response.SingleDataResponseModel
 import com.zoothii.rent_car_system_android.remote.RetrofitService
 import com.zoothii.rent_car_system_android.remote.service.IBrandsService
-import com.zoothii.rent_car_system_android.util.ErrorHandler
 import com.zoothii.rent_car_system_android.util.Helper
 import retrofit2.Call
 import retrofit2.Callback

@@ -1,5 +1,6 @@
 package com.zoothii.rent_car_system_android.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,29 +10,28 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.zoothii.rent_car_system_android.MainActivity
 import com.zoothii.rent_car_system_android.R
-import com.zoothii.rent_car_system_android.adapter.CarCardAdapter
-import com.zoothii.rent_car_system_android.model.Car
+import com.zoothii.rent_car_system_android.adapter.CarsDetailAdapter
 import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.repository.CarRepository
+import com.zoothii.rent_car_system_android.util.Helper
 import com.zoothii.rent_car_system_android.view.CarImageViewModel
 import com.zoothii.rent_car_system_android.view.CarViewModel
 import com.zoothii.rent_car_system_android.view.CarViewModelFactory
 
 
-class HomeFragment : Fragment() {
-    
+class CarsDetailFragment : Fragment() {
+
     private lateinit var carViewModel: CarViewModel
     private lateinit var carImageViewModel: CarImageViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var cars: List<Car>
-    private lateinit var carDetailList: List<CarDetail>
+    private var carDetailList: List<CarDetail> = ArrayList()
     private var carImageList: ArrayList<CarImage> = ArrayList()
-    private var carImageList2: ArrayList<Int> = ArrayList()
     private lateinit var carImage: CarImage
-    private var count: Int = 0
-    private lateinit var carCardAdapter: CarCardAdapter
+    private lateinit var carCardAdapter: CarsDetailAdapter
 
 
     override fun onCreateView(
@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_cars_detail, container, false)
 
         val carRepository = CarRepository()
         val carViewModelFactory = CarViewModelFactory(carRepository)
@@ -49,27 +49,44 @@ class HomeFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler_view)
 
-        carCardAdapter = CarCardAdapter(view.context) { carDetail ->
+        carCardAdapter = CarsDetailAdapter(view.context) { carDetail -> // clickListener call
             Log.d("CLICK", carDetail.id.toString())
             Log.d("CLICK", carDetail.description)
             Log.d("CLICK", carDetail.dailyPrice.toString())
+
+
+            val intent = Intent(activity, CarDetailActivity::class.java)
+            //intent.putExtra("carDetail", "Gson().toJson(carDetail)111")
+
+            Helper.data = carDetail
+
+            /*activity?.startActivity(intent)*/
+            startActivity(intent)
         }
 
 
         recyclerView.adapter = carCardAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
-        carViewModel.getAllCarsDetailsWithPreviewFirstImage().observe(viewLifecycleOwner, { responseCarDetailData ->
-            if (responseCarDetailData.success) {
-                carDetailList = responseCarDetailData.data.toCollection(ArrayList())
 
-                carCardAdapter.setCarDetails(carDetailList)
 
-            } else {
-                Log.d("Message", responseCarDetailData.message.toString())
-                Log.d("Success", responseCarDetailData.success.toString())
-            }
-        })
+        Helper.progressBarShow(view, true)
+        carViewModel.getAllCarsDetailsWithPreviewFirstImage().observe(
+            viewLifecycleOwner,
+            { responseCarDetailData ->
+                if (responseCarDetailData.success) {
+                    carDetailList = responseCarDetailData.data.toCollection(ArrayList())
+
+                    carCardAdapter.setCarDetails(carDetailList)
+                    Helper.progressBarShow(view, false)
+
+                } else {
+                    Log.d("Message", responseCarDetailData.message.toString())
+                    Log.d("Success", responseCarDetailData.success.toString())
+                }
+            })
+
+
 
 
         return view
