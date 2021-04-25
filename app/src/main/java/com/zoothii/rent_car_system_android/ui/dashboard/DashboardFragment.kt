@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +18,8 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
+
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -24,14 +28,22 @@ class DashboardFragment : Fragment() {
         dashboardViewModel =
                 ViewModelProvider(this).get(DashboardViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        val toolbar = root.findViewById<Toolbar>(R.id.toolbar2_cars_detail)
+        toolbar?.hideOverflowMenu()
+        toolbar?.title = "2"
+
+/*      val imageView1: ImageView = root.findViewById(R.id.imageView1)
+        val imageView2: ImageView = root.findViewById(R.id.imageView2)*/
+
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
 
             if (Helper.data is CarDetail) {
                 val carDetail = Helper.data as CarDetail
-                textView.text = carDetail.brandName.toString()
+                //.text = carDetail.brandName.toString()
             }
         })
+
+
         return root
     }
 }

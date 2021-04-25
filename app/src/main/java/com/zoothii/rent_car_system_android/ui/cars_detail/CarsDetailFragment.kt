@@ -1,38 +1,44 @@
-package com.zoothii.rent_car_system_android.ui.home
+package com.zoothii.rent_car_system_android.ui.cars_detail
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import com.zoothii.rent_car_system_android.MainActivity
 import com.zoothii.rent_car_system_android.R
 import com.zoothii.rent_car_system_android.adapter.CarsDetailAdapter
+import com.zoothii.rent_car_system_android.di.AppModule
 import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.repository.CarRepository
+import com.zoothii.rent_car_system_android.ui.car_detail.CarDetailActivity
 import com.zoothii.rent_car_system_android.util.Helper
-import com.zoothii.rent_car_system_android.view.CarImageViewModel
-import com.zoothii.rent_car_system_android.view.CarViewModel
-import com.zoothii.rent_car_system_android.view.CarViewModelFactory
-
+import com.zoothii.rent_car_system_android.view_and_factory.car_image.CarImageViewModel
+import com.zoothii.rent_car_system_android.view_and_factory.car.CarViewModel
+import com.zoothii.rent_car_system_android.view_and_factory.car.CarViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 class CarsDetailFragment : Fragment() {
 
     private lateinit var carViewModel: CarViewModel
     private lateinit var carImageViewModel: CarImageViewModel
     private lateinit var recyclerView: RecyclerView
-    private var carDetailList: List<CarDetail> = ArrayList()
+    private var carDetailList: ArrayList<CarDetail> = ArrayList()
     private var carImageList: ArrayList<CarImage> = ArrayList()
     private lateinit var carImage: CarImage
     private lateinit var carCardAdapter: CarsDetailAdapter
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,20 +46,25 @@ class CarsDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_cars_detail, container, false)
+        val root = inflater.inflate(R.layout.fragment_cars_detail, container, false)
+        val toolbar = root.findViewById<Toolbar>(R.id.toolbar_cars_detail)
+        toolbar.title = "Cars"
+        toolbar.inflateMenu(R.menu.search_bar_menu)
 
-        val carRepository = CarRepository()
-        val carViewModelFactory = CarViewModelFactory(carRepository)
-        carViewModel = ViewModelProvider(this, carViewModelFactory).get(CarViewModel::class.java)
-        //carImageViewModel = ViewModelProvider(this).get(CarImageViewModel::class.java)
+        val searchItem = toolbar.menu.findItem(R.id.navigation_search)
+        val searchView = searchItem.actionView as SearchView
 
-        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView = root.findViewById(R.id.recycler_view)
 
-        carCardAdapter = CarsDetailAdapter(view.context) { carDetail -> // clickListener call
+        //val carRepository = CarRepository() // todo Dependency injection ->done
+        //val carViewModelFactory = CarViewModelFactory(carRepository) // todo Dependency injection ->done
+
+        carViewModel = ViewModelProvider(this, CarViewModelFactory()).get(CarViewModel::class.java)
+
+        carCardAdapter = CarsDetailAdapter(root.context) { carDetail -> // clickListener call
             Log.d("CLICK", carDetail.id.toString())
             Log.d("CLICK", carDetail.description)
             Log.d("CLICK", carDetail.dailyPrice.toString())
-
 
             val intent = Intent(activity, CarDetailActivity::class.java)
             //intent.putExtra("carDetail", "Gson().toJson(carDetail)111")
@@ -66,11 +77,11 @@ class CarsDetailFragment : Fragment() {
 
 
         recyclerView.adapter = carCardAdapter
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        recyclerView.layoutManager = LinearLayoutManager(root.context)
 
 
 
-        Helper.progressBarShow(view, true)
+        Helper.progressBarShow(root, true)
         carViewModel.getAllCarsDetailsWithPreviewFirstImage().observe(
             viewLifecycleOwner,
             { responseCarDetailData ->
@@ -78,7 +89,7 @@ class CarsDetailFragment : Fragment() {
                     carDetailList = responseCarDetailData.data.toCollection(ArrayList())
 
                     carCardAdapter.setCarDetails(carDetailList)
-                    Helper.progressBarShow(view, false)
+                    Helper.progressBarShow(root, false)
 
                 } else {
                     Log.d("Message", responseCarDetailData.message.toString())
@@ -87,16 +98,49 @@ class CarsDetailFragment : Fragment() {
             })
 
 
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                carCardAdapter.filter.filter(newText)
+                return true
+            }
+
+        })
 
 
-        return view
+        return root
     }
+
 
 }
 
 
 // TODO unnecessary codes maybe I can use later
 
+//(requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+
+/*    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_bar_menu, menu)
+
+*//*        val search = menu.findItem(R.id.navigation_search)
+        val searchView = search.actionView as SearchView
+        searchView.queryHint = "aaaa"
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                carCardAdapter.filter(newText)
+                return true
+            }
+
+        })*//*
+    }*/
 
 /*carImageViewModel.getAllCarImages()
                     carImageViewModel.carImageDataResponse.observe(

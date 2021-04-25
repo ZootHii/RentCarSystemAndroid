@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_cars">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.zoothii.rent_car_system_android.ui.home.CarsDetailFragment"
+        android:id="@+id/navigation_cars"
+        android:name="com.zoothii.rent_car_system_android.ui.cars_detail.CarsDetailFragment"
         android:label="@string/title_cars_detail"
         tools:layout="@layout/fragment_cars_detail" />
 

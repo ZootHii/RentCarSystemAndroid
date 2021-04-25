@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.car_detail.CarDetailFragment">
+
+    <me.relex.circleindicator.CircleIndicator3
+        android:id="@+id/circle_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        app:ci_drawable="@drawable/color_circle_indicator"
+        app:ci_drawable_unselected="@drawable/color_circle_indicator"
+        android:layout_below="@id/view_pager_2">
+
+    </me.relex.circleindicator.CircleIndicator3>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager_2"
+        android:layout_width="392.4dp"
+        android:layout_height="240dp"
+        android:layout_alignParentStart="true">
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+
+
+</RelativeLayout>
+
+    <!--android:layout_marginTop="250dp"-->
+<!--
+<ImageView
+android:id="@+id/imageView1"
+android:layout_width="220dp"
+android:layout_height="238dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintHorizontal_bias="0.508"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintVertical_bias="0.116">
+
+</ImageView>
+
+<ImageView
+android:id="@+id/imageView2"
+android:layout_width="217dp"
+android:layout_height="206dp"
+android:layout_marginBottom="68dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/imageView1">
+
+</ImageView>-->

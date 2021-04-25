@@ -12,7 +12,6 @@ import com.zoothii.rent_car_system_android.R
 import org.json.JSONObject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.reflect.KClass
 
 
 @Suppress("UNCHECKED_CAST")
@@ -25,9 +24,9 @@ class Helper {
         var data: Any = Any()
 
 
-        fun formatDateTimeString(dateTime: String, pattern: String): String {
+        fun formatDateTimeString(dateTime: String, dateTimeFormatterPattern: String): String {
             val localDateTime = LocalDateTime.parse(dateTime)
-            val formatter = DateTimeFormatter.ofPattern(pattern)
+            val formatter = DateTimeFormatter.ofPattern(dateTimeFormatterPattern)
             return formatter.format(localDateTime)
         }
 

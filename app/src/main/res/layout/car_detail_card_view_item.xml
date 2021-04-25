@@ -7,8 +7,8 @@
     android:layout_height="230dp"
     android:layout_margin="6dp"
     cardview:cardBackgroundColor="#FFFFFF"
-    cardview:cardCornerRadius="7dp"
-    cardview:cardElevation="20dp">
+    cardview:cardCornerRadius="10dp"
+    cardview:cardElevation="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,6 @@
                 android:id="@+id/car_card_image"
                 android:layout_width="225dp"
                 android:layout_height="145dp"
-
                 android:scaleType="fitXY"
                 android:contentDescription="TODO" />
 
@@ -36,6 +35,8 @@
                 android:layout_gravity="start"
                 android:fontFamily="@font/audiowide"
                 android:gravity="center"
+                android:maxLines="3"
+                android:ellipsize="end"
                 android:text="Lamborghini Carbonado Apertos"
                 android:textAlignment="center"
                 android:textColor="#000000"
@@ -59,6 +60,8 @@
                 android:layout_gravity="end"
                 android:fontFamily="@font/audiowide"
                 android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="Lamborghini"
                 android:textAlignment="center"
                 android:textColor="#000000"
@@ -74,6 +77,8 @@
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/audiowide"
                 android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="Rose Gold"
 
                 android:textAlignment="center"
@@ -104,7 +109,9 @@
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/audiowide"
                 android:gravity="center"
-                android:text="$10000.0 Daily"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="$1000000.0 Daily"
                 android:textAlignment="center"
                 android:textColor="#019F23"
                 android:textSize="19sp" />

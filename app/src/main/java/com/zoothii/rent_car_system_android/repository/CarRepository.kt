@@ -1,5 +1,8 @@
 package com.zoothii.rent_car_system_android.repository
 
+import android.app.Service
+import android.content.Intent
+import android.os.IBinder
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.zoothii.rent_car_system_android.model.Car
@@ -10,20 +13,24 @@ import com.zoothii.rent_car_system_android.model.response.SingleDataResponseMode
 import com.zoothii.rent_car_system_android.remote.RetrofitService
 import com.zoothii.rent_car_system_android.remote.service.ICarsService
 import com.zoothii.rent_car_system_android.util.Helper
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class CarRepository {
+class CarRepository(private val carService: ICarsService) {
+
 
 /*    companion object Factory {
         fun create(): CarRepository = CarRepository()
     }*/
 
-    private val carService: ICarsService by lazy {
+/*    private val carService: ICarsService by lazy {
         RetrofitService.buildService(ICarsService::class.java)
-    }
+    }*/
+
+
 
     val carDetailDataResponse: MutableLiveData<DataResponseModel<CarDetail>> = MutableLiveData()
     val carDetailSingleDataResponse: MutableLiveData<SingleDataResponseModel<CarDetail>> = MutableLiveData()
@@ -276,4 +283,6 @@ class CarRepository {
         })
         return carDetailSingleDataResponse
     }
+
+
 }
