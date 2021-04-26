@@ -1,35 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.car_detail.CarDetailFragment">
+    tools:context=".ui.car_detail.CarDetailFragment"
+    android:orientation="vertical">
 
-    <me.relex.circleindicator.CircleIndicator3
-        android:id="@+id/circle_indicator"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerInParent="true"
-        app:ci_drawable="@drawable/color_circle_indicator"
-        app:ci_drawable_unselected="@drawable/color_circle_indicator"
-        android:layout_below="@id/view_pager_2">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    </me.relex.circleindicator.CircleIndicator3>
+        <TextView
+            android:id="@+id/car_detail_description"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_gravity="start"
+            android:fontFamily="@font/audiowide"
+            android:gravity="center"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="Lamborghini Carbonado Apertos"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="27sp"
+            android:textStyle="italic">
+        </TextView>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager_2"
-        android:layout_width="392.4dp"
-        android:layout_height="240dp"
-        android:layout_alignParentStart="true">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager_2"
+            android:layout_width="392.4dp"
+            android:layout_height="240dp"
+            >
 
-    </androidx.viewpager2.widget.ViewPager2>
+        </androidx.viewpager2.widget.ViewPager2>
+
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/circle_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            app:ci_drawable="@drawable/color_circle_indicator"
+            app:ci_drawable_unselected="@drawable/color_circle_indicator">
+        </me.relex.circleindicator.CircleIndicator3>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/car_detail_color_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="22dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/audiowide"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="Rose Gold"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="21sp" />
+
+        <TextView
+            android:id="@+id/car_detail_model_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@+id/car_detail_daily_price"
+            android:layout_toEndOf="@+id/car_detail_color_name"
+            android:fontFamily="@font/audiowide"
+            android:gravity="center"
+            android:text="2015"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="21sp" />
+
+        <TextView
+            android:id="@+id/car_detail_daily_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="22dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/audiowide"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minLines="2"
+            android:text="$100000.0 \nDaily"
+            android:textAlignment="center"
+            android:textColor="#019F23"
+            android:textSize="21sp" />
+    </RelativeLayout>
+
+</LinearLayout>
 
 
 
-</RelativeLayout>
+
+
+<!--
+
+-->
+
+
+
+
 
     <!--android:layout_marginTop="250dp"-->
 <!--

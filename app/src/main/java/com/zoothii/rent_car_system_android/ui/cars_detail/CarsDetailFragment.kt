@@ -7,6 +7,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,9 +25,11 @@ import com.zoothii.rent_car_system_android.view_and_factory.car.CarViewModelFact
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class CarsDetailFragment : Fragment() {
 
-    private lateinit var carViewModel: CarViewModel
+    private val carViewModel: CarViewModel by viewModels()
+    //private lateinit var carViewModel: CarViewModel
     private lateinit var carImageViewModel: CarImageViewModel
     private lateinit var recyclerView: RecyclerView
     private var carDetailList: ArrayList<CarDetail> = ArrayList()
@@ -59,7 +62,7 @@ class CarsDetailFragment : Fragment() {
         //val carRepository = CarRepository() // todo Dependency injection ->done
         //val carViewModelFactory = CarViewModelFactory(carRepository) // todo Dependency injection ->done
 
-        carViewModel = ViewModelProvider(this, CarViewModelFactory()).get(CarViewModel::class.java)
+        //carViewModel = ViewModelProvider(this, CarViewModelFactory()).get(CarViewModel::class.java)
 
         carCardAdapter = CarsDetailAdapter(root.context) { carDetail -> // clickListener call
             Log.d("CLICK", carDetail.id.toString())
@@ -78,7 +81,6 @@ class CarsDetailFragment : Fragment() {
 
         recyclerView.adapter = carCardAdapter
         recyclerView.layoutManager = LinearLayoutManager(root.context)
-
 
 
         Helper.progressBarShow(root, true)

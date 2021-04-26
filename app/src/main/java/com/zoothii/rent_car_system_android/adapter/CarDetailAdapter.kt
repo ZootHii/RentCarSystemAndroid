@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.zoothii.rent_car_system_android.databinding.CarDetailViewItemBinding
+import com.zoothii.rent_car_system_android.model.CarDetail
 
 import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.util.Helper
@@ -15,7 +16,7 @@ class CarDetailAdapter(
     private val clickListener: (CarImage) -> Unit
 ) : RecyclerView.Adapter<CarDetailAdapter.CarDetailViewHolder>() {
 
-    private var carDetailList: List<CarImage> = ArrayList()
+    private var carImagesList: List<CarImage> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarDetailViewHolder {
         val carDetailViewItemBinding = CarDetailViewItemBinding.inflate(
@@ -28,17 +29,17 @@ class CarDetailAdapter(
     }
 
     override fun onBindViewHolder(holder: CarDetailViewHolder, position: Int) {
-        val currentCarDetailItem: CarImage = carDetailList[position]
+        val currentCarDetailItem: CarImage = carImagesList[position]
         holder.bindItems(currentCarDetailItem)
         holder.itemView.setOnClickListener { clickListener(currentCarDetailItem) }
     }
 
     override fun getItemCount(): Int {
-        return carDetailList.size
+        return carImagesList.size
     }
 
     fun setCarDetails(carDetailList: List<CarImage>) {
-        this.carDetailList = carDetailList
+        this.carImagesList = carDetailList
         this.notifyDataSetChanged()
     }
 
@@ -50,7 +51,11 @@ class CarDetailAdapter(
 
 
         fun bindItems(currentCarDetailItem: CarImage) {
-            carDetailViewItemBinding.carDetailImage.setImageBitmap(Helper.base64StringToBitmap(currentCarDetailItem.imagePath))
+            carDetailViewItemBinding.carDetailImage.setImageBitmap(
+                Helper.base64StringToBitmap(
+                    currentCarDetailItem.imagePath
+                )
+            )
 
         }
 

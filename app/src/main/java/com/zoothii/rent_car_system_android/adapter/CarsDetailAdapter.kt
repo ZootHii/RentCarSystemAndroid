@@ -9,7 +9,6 @@ import android.widget.Filterable
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.zoothii.rent_car_system_android.databinding.CarDetailCardViewItemBinding
-import com.zoothii.rent_car_system_android.model.Car
 import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.util.Helper
 
@@ -18,8 +17,8 @@ class CarsDetailAdapter(
     private val clickListener: (CarDetail) -> Unit
 ) : RecyclerView.Adapter<CarsDetailAdapter.CarsDetailViewHolder>(), Filterable {
 
-    private val carDetailList: ArrayList<CarDetail> = ArrayList()
-    private val carDetailListFull: ArrayList<CarDetail> = ArrayList()
+    private val carsDetailList: ArrayList<CarDetail> = ArrayList()
+    private val carsDetailListFull: ArrayList<CarDetail> = ArrayList()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarsDetailViewHolder {
@@ -33,31 +32,25 @@ class CarsDetailAdapter(
     }
 
     override fun onBindViewHolder(holder: CarsDetailViewHolder, position: Int) {
-        val currentCarDetailItem: CarDetail = carDetailList[position]
+        val currentCarDetailItem: CarDetail = carsDetailList[position]
         holder.bindItems(currentCarDetailItem)
         holder.itemView.setOnClickListener { clickListener(currentCarDetailItem) }
     }
 
     override fun getItemCount(): Int {
-        return carDetailList.size
+        return carsDetailList.size
     }
 
     override fun getFilter(): Filter {
         return object : Filter() {
             val filteredCarDetailList: ArrayList<CarDetail> = ArrayList()
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-
-                if (constraint.isNullOrEmpty()){
-                    filteredCarDetailList.addAll(carDetailListFull)
-                    Log.d("Search filtered", filteredCarDetailList.size.toString())
-                    Log.d("Search main", carDetailList.size.toString())
-                    Log.d("Search full", carDetailListFull.size.toString())
-                }
-                else{
+                if (constraint.isNullOrEmpty()) {
+                    filteredCarDetailList.addAll(carsDetailListFull)
+                } else {
                     val filterPattern: String = constraint.toString().toLowerCase().trim()
-                    Log.d("Search full", carDetailListFull.size.toString())
 
-                    carDetailListFull.forEach { carDetail ->
+                    carsDetailListFull.forEach { carDetail ->
                         when {
                             carDetail.description.toLowerCase().contains(filterPattern) -> {
                                 filteredCarDetailList.add(carDetail)
@@ -85,38 +78,22 @@ class CarsDetailAdapter(
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                carDetailList.clear()
+                carsDetailList.clear()
                 val list: ArrayList<CarDetail> = results?.values as ArrayList<CarDetail>
-                carDetailList.addAll(list)
-                Log.d("SEARCH", list.size.toString())
+                carsDetailList.addAll(list)
 
                 notifyDataSetChanged()
-                Log.d("SEARCH", results?.values.toString())
             }
 
         }
     }
 
     fun setCarDetails(carDetailList: ArrayList<CarDetail>) {
-        this.carDetailList.addAll(carDetailList)
-        carDetailListFull.addAll(carDetailList) // todo carDetailListFull = carDetailList does not work IDK why AAJHHHH
+        this.carsDetailList.addAll(carDetailList)
+        carsDetailListFull.addAll(carDetailList) // todo carDetailListFull = carDetailList does not work IDK why AAJHHHH
         Log.d("Search ALL", carDetailList.size.toString())
         this.notifyDataSetChanged()
     }
-
-/*    fun filter(string: String?){
-        val newList = arrayListOf<CarDetail>()
-        if (!string.isNullOrEmpty()){
-            this.carDetailList.forEach { carDetail ->
-                if (carDetail.description.contains(string!!)){
-                    newList.add(carDetail)
-                }
-            }
-            this.carDetailList = newList
-        }
-        notifyDataSetChanged()
-    }*/
-
 
     inner class CarsDetailViewHolder(
         private val carDetailCardViewItemBinding: CarDetailCardViewItemBinding,
@@ -124,14 +101,19 @@ class CarsDetailAdapter(
         carDetailCardViewItemBinding.root
     ) {
 
-
         fun bindItems(currentCarDetailItem: CarDetail) {
             carDetailCardViewItemBinding.carCardBrandName.text = currentCarDetailItem.brandName
             carDetailCardViewItemBinding.carCardColorName.text = currentCarDetailItem.colorName
-            carDetailCardViewItemBinding.carCardModelYear.text = currentCarDetailItem.modelYearFormatted
+            carDetailCardViewItemBinding.carCardModelYear.text =
+                currentCarDetailItem.modelYearFormatted
             carDetailCardViewItemBinding.carCardDescription.text = currentCarDetailItem.description
-            carDetailCardViewItemBinding.carCardDailyPrice.text = "\$ ${currentCarDetailItem.dailyPrice} \nDaily"
-            carDetailCardViewItemBinding.carCardImage.setImageBitmap(Helper.base64StringToBitmap(currentCarDetailItem.previewFirstImage))
+            carDetailCardViewItemBinding.carCardDailyPrice.text =
+                "\$ ${currentCarDetailItem.dailyPrice} \nDaily"
+            carDetailCardViewItemBinding.carCardImage.setImageBitmap(
+                Helper.base64StringToBitmap(
+                    currentCarDetailItem.previewFirstImage
+                )
+            )
             /*carDetailItem?.setOnClickListener {
                 listener.invoke(currentCarDetailItem)
             }
@@ -150,8 +132,4 @@ class CarsDetailAdapter(
         }*/
 
     }
-
-
-
-
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,14 +44,14 @@ class CarDetailFragment : Fragment() {
 
         val root = inflater.inflate(R.layout.fragment_car_detail, container, false)
 
+        val descriptionText: TextView = root.findViewById(R.id.car_detail_description)
+        val colorNameText: TextView = root.findViewById(R.id.car_detail_color_name)
+        val modelYearText: TextView = root.findViewById(R.id.car_detail_model_year)
+        val dailyPriceText: TextView = root.findViewById(R.id.car_detail_daily_price)
+
         val carImageRepository = CarImageRepository()
         val carImageViewModelFactory = CarImageViewModelFactory(carImageRepository)
         carImageViewModel = ViewModelProvider(this, carImageViewModelFactory).get(CarImageViewModel::class.java)
-
-
-
-
-
 
 /*        recyclerView.adapter = carCardAdapter
         recyclerView.layoutManager = LinearLayoutManager(root.context)*/
@@ -58,6 +59,11 @@ class CarDetailFragment : Fragment() {
 
         if (Helper.data is CarDetail) {
             val carDetail = Helper.data as CarDetail
+            descriptionText.text = carDetail.description
+            colorNameText.text = carDetail.colorName
+            modelYearText.text = carDetail.modelYearFormatted
+            dailyPriceText.text = "\$ ${carDetail.dailyPrice} \nDaily"
+
 
             carImageViewModel.getCarImagesByCarId(carDetail.id).observe(
                 viewLifecycleOwner,

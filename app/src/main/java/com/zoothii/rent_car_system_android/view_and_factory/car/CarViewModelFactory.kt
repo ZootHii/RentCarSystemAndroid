@@ -4,17 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.zoothii.rent_car_system_android.di.AppModule
 import com.zoothii.rent_car_system_android.repository.CarRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import javax.inject.Singleton
 
 
 @Suppress("UNCHECKED_CAST")
 
 
-class CarViewModelFactory (/*private val repository: CarRepository*/) : ViewModelProvider.Factory {
+class CarViewModelFactory(/*private val repository: CarRepository*/) : ViewModelProvider.Factory {
     //@Inject lateinit var repository: CarRepository
-    private val repository: CarRepository = CarRepository(AppModule.provideCarService()) // TODO too hard for me to make injection for fragment - factory
+    private val repository: CarRepository =
+        CarRepository(AppModule.provideCarService()) // TODO too hard for me to make injection for fragment - factory // -> done no need a factory anymore
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return CarViewModel(repository) as T
     }

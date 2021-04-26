@@ -4,7 +4,6 @@ package com.zoothii.rent_car_system_android.util
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
-
 import android.util.Log
 import android.view.View
 import androidx.core.widget.ContentLoadingProgressBar
@@ -20,9 +19,7 @@ class Helper {
 
     companion object {
 
-
         var data: Any = Any()
-
 
         fun formatDateTimeString(dateTime: String, dateTimeFormatterPattern: String): String {
             val localDateTime = LocalDateTime.parse(dateTime)
@@ -41,12 +38,14 @@ class Helper {
             }
         }
 
-        fun progressBarShow(view: View, show: Boolean){
+        fun progressBarShow(view: View, show: Boolean) {
             val progressBar = view.findViewById<ContentLoadingProgressBar>(R.id.progress_bar)
-            if (show){
+            //val progressBar = vi.findViewById<ContentLoadingProgressBar>(R.id.progress_bar)
+
+            if (show) {
                 progressBar.show()
             }
-            if (!show){
+            if (!show) {
                 progressBar.hide()
             }
         }
