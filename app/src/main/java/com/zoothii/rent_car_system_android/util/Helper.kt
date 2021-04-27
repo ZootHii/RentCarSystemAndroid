@@ -14,6 +14,9 @@ class Helper {
 
     companion object {
 
+        const val SORT_BY_DAILY_PRICE = "dailyPrice"
+        const val SORT_BY_MODEL_YEAR = "modelYear"
+
         var data: Any = Any()
 
         fun formatDateTimeString(dateTime: String, dateTimeFormatterPattern: String): String {

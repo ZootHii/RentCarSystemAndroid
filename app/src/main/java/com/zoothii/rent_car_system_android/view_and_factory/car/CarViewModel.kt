@@ -17,6 +17,7 @@ import javax.inject.Inject
 class CarViewModel @Inject constructor(
     private val repository: CarRepository
 ) : ViewModel() {
+    // TODO LiveData always has latest value always updated
 
     lateinit var carDataResponse: MutableLiveData<DataResponseModel<Car>>
     private lateinit var carDetailDataResponse: MutableLiveData<DataResponseModel<CarDetail>>

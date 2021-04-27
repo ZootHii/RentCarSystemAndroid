@@ -28,14 +28,14 @@
             android:textStyle="italic" />
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager_2"
+            android:id="@+id/view_pager_2_car_detail"
             android:layout_width="392.4dp"
             android:layout_height="240dp">
 
         </androidx.viewpager2.widget.ViewPager2>
 
         <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/circle_indicator"
+            android:id="@+id/circle_indicator_3_car_detail"
             android:layout_width="match_parent"
             android:layout_height="24dp"
             app:ci_drawable="@drawable/color_circle_indicator"

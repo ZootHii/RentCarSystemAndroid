@@ -1,6 +1,7 @@
 package com.zoothii.rent_car_system_android.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -21,6 +22,7 @@ class CarsDetailAdapter(
 
     private val carsDetailList: ArrayList<CarDetail> = ArrayList()
     private val carsDetailListFull: ArrayList<CarDetail> = ArrayList()
+    private var sortFlag = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarsDetailViewHolder {
         val carDetailCardViewItemBinding = CarDetailCardViewItemBinding.inflate(
@@ -88,6 +90,8 @@ class CarsDetailAdapter(
     }
 
     fun setCarDetails(carDetailList: ArrayList<CarDetail>) {
+        Log.d("SORT", "TEKRAR AMK")
+
         this.carsDetailList.clear()
         this.carsDetailList.addAll(carDetailList)
         if (carsDetailListFull.isEmpty()) {
@@ -96,25 +100,43 @@ class CarsDetailAdapter(
         this.notifyDataSetChanged()
     }
 
+    fun sortCarsBy(string: String){
+        if (sortFlag && string == Helper.SORT_BY_DAILY_PRICE){
+            carsDetailList.sortBy { carDetail -> carDetail.dailyPrice }
+            sortFlag = false
+        }
+        else if (!sortFlag && string == Helper.SORT_BY_DAILY_PRICE){
+            carsDetailList.sortByDescending { carDetail -> carDetail.dailyPrice }
+            sortFlag = true
+        }
+        else if (sortFlag && string == Helper.SORT_BY_MODEL_YEAR){
+            carsDetailList.sortBy { carDetail -> carDetail.modelYear }
+            sortFlag = false
+        }
+        else if (!sortFlag && string == Helper.SORT_BY_MODEL_YEAR){
+            carsDetailList.sortByDescending { carDetail -> carDetail.modelYear }
+            sortFlag = true
+        }
+        notifyDataSetChanged()
+    }
+
     inner class CarsDetailViewHolder(
-        private val carDetailCardViewItemBinding: CarDetailCardViewItemBinding,
+        private val itemBinding: CarDetailCardViewItemBinding,
     ) : RecyclerView.ViewHolder(
-        carDetailCardViewItemBinding.root
+        itemBinding.root
     ) {
 
         fun bindItems(currentCarDetailItem: CarDetail) {
-            carDetailCardViewItemBinding.carCardBrandName.text = currentCarDetailItem.brandName
-            carDetailCardViewItemBinding.carCardColorName.text = currentCarDetailItem.colorName
-            carDetailCardViewItemBinding.carCardModelYear.text =
-                currentCarDetailItem.modelYearFormatted
-            carDetailCardViewItemBinding.carCardDescription.text = currentCarDetailItem.description
-            carDetailCardViewItemBinding.carCardDailyPrice.text =
-                "\$ ${currentCarDetailItem.dailyPrice} \nDaily"
-            carDetailCardViewItemBinding.carCardImage.setImageBitmap(
-                Helper.base64StringToBitmap(
-                    currentCarDetailItem.previewFirstImage
+            itemBinding.apply {
+                carCardBrandName.text = currentCarDetailItem.brandName
+                carCardColorName.text = currentCarDetailItem.colorName
+                carCardModelYear.text = currentCarDetailItem.modelYearFormatted
+                carCardDescription.text = currentCarDetailItem.description
+                carCardDailyPrice.text = "\$ ${currentCarDetailItem.dailyPrice} \nDaily"
+                carCardImage.setImageBitmap(
+                    Helper.base64StringToBitmap(currentCarDetailItem.previewFirstImage)
                 )
-            )
+            }
         }
     }
 }

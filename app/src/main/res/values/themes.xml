@@ -15,10 +15,12 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/purple_700</item>
         <!--<item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
         <!-- Customize your theme here. -->
-        <item name="android:actionButtonStyle">@style/ActionButton</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButtonClose</item>
-        <item name="android:actionModeStyle">@style/ActionButtonClose</item>
-        <item name="searchViewStyle">@style/MySearchViewStyle</item>
+
+
+        <!--<item name="android:actionButtonStyle">@style/ActionButton</item>-->
+<!--        <item name="android:actionModeCloseButtonStyle">@style/ActionButtonClose</item>
+        <item name="android:actionModeStyle">@style/ActionButtonClose</item>-->
+
     </style>
 </resources>
 

@@ -3,10 +3,10 @@ package com.zoothii.rent_car_system_android.ui.cars_detail
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,14 +21,20 @@ import com.zoothii.rent_car_system_android.view_and_factory.car.CarViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CarsDetailFragment : Fragment() {
+class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
 
     private val carViewModel: CarViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var carCardAdapter: CarsDetailAdapter
     private lateinit var carDetailList: ArrayList<CarDetail>
+    private lateinit var fragmentRoot: View
+    private lateinit var toolbar: Toolbar
+    private lateinit var progressBar: ContentLoadingProgressBar
+    private val titleToolbar = "Cars"
+    //private lateinit var searchView: SearchView
 
-    override fun onCreateView(
+
+/*    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,14 +45,15 @@ class CarsDetailFragment : Fragment() {
             container,
             false
         )
-        val fragmentRoot = fragmentCarsDetailBinding.root
-        val toolbar = fragmentCarsDetailBinding.toolbarCarsDetail
+        fragmentCarsDetailBinding.apply {
+            fragmentRoot = root
+            toolbar = toolbarCarsDetail
+            progressBar = progressBarCarsDetail
+            recyclerView = recyclerViewCarsDetail
+        }
         toolbar.title = "Cars"
         toolbar.inflateMenu(R.menu.search_bar_menu)
-        val searchItem = toolbar.menu.findItem(R.id.navigation_search)
-        val searchView = searchItem.actionView as SearchView
-        val progressBar = fragmentCarsDetailBinding.progressBar
-        recyclerView = fragmentCarsDetailBinding.recyclerView
+        searchView = toolbar.menu.findItem(R.id.navigation_search).actionView as SearchView
 
         carCardAdapter = CarsDetailAdapter(fragmentRoot.context) { carDetail, carsDetailList ->
             val intent = Intent(activity, CarDetailActivity::class.java)
@@ -90,7 +97,78 @@ class CarsDetailFragment : Fragment() {
         })
 
         return fragmentRoot
+    }*/
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val fragmentCarsDetailBinding = FragmentCarsDetailBinding.bind(view)
+
+        fragmentCarsDetailBinding.apply {
+            fragmentRoot = root
+            progressBar = progressBarCarsDetail
+            recyclerView = recyclerViewCarsDetail.apply {
+                carCardAdapter =
+                    CarsDetailAdapter(fragmentCarsDetailBinding.root.context) { carDetail, carsDetailList ->
+                        val intent = Intent(activity, CarDetailActivity::class.java)
+                        Helper.data = carDetail
+                        startActivity(intent)
+                    }
+                adapter = carCardAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+                setHasFixedSize(true) // TODO for more optimized recyclerview
+            }
+            toolbar = toolbarCarsDetail.apply {
+                title = titleToolbar
+                inflateMenu(R.menu.action_bar_menu_cars_details)
+                (menu.findItem(R.id.action_search).actionView as SearchView).apply {
+                    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean {
+                            carCardAdapter.filter.filter(newText)
+                            return true
+                        }
+                    })
+                }
+            }
+        }
+
+        Helper.progressBarShow(progressBar, true)
+        carViewModel.getAllCarsDetailsWithPreviewFirstImage().observe(
+            viewLifecycleOwner
+        ) { responseCarDetailData ->
+            if (responseCarDetailData.success) {
+
+                carDetailList = responseCarDetailData.data.toCollection(ArrayList())
+
+                toolbar.setOnMenuItemClickListener {
+                    if (it.itemId == R.id.action_sort_by_daily_price) {
+                        carCardAdapter.sortCarsBy(Helper.SORT_BY_DAILY_PRICE)
+                    }
+                    else if (it.itemId == R.id.action_sort_by_model_year){
+                        carCardAdapter.sortCarsBy(Helper.SORT_BY_MODEL_YEAR)
+                    }
+                    true
+                }
+
+                carCardAdapter.setCarDetails(carDetailList)
+                Helper.progressBarShow(progressBar, false)
+
+            } else {
+                Log.d("Message", responseCarDetailData.message.toString())
+                Log.d("Success", responseCarDetailData.success.toString())
+            }
+        }
+
+
+
     }
+
+
 }
 
 

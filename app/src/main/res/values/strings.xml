@@ -4,6 +4,10 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_search">Search</string>
+    <string name="title_sort">Sort</string>
+    <string name="title_sort_by_daily_price">Sort by daily price</string>
+    <string name="title_sort_by_model_year">Sort by model year</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="backup">Backup</string>
 </resources>
