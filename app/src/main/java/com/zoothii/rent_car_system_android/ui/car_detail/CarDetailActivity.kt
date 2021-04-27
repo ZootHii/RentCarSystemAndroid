@@ -6,8 +6,10 @@ import androidx.fragment.app.FragmentTransaction
 import com.zoothii.rent_car_system_android.R
 import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.util.Helper
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class CarDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -16,6 +16,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.zoothii.rent_car_system_android.R
 import com.zoothii.rent_car_system_android.adapter.CarDetailAdapter
 import com.zoothii.rent_car_system_android.adapter.CarsDetailAdapter
+import com.zoothii.rent_car_system_android.databinding.CarDetailCardViewItemBinding
+import com.zoothii.rent_car_system_android.databinding.FragmentCarDetailBinding
 import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.repository.CarImageRepository
@@ -38,16 +40,17 @@ class CarDetailFragment : Fragment() {
     private lateinit var carDetailAdapter: CarDetailAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val root = inflater.inflate(R.layout.fragment_car_detail, container, false)
+        //val root = inflater.inflate(R.layout.fragment_car_detail, container, false)
 
-        val descriptionText: TextView = root.findViewById(R.id.car_detail_description)
+/*      val descriptionText: TextView = root.findViewById(R.id.car_detail_description)
         val colorNameText: TextView = root.findViewById(R.id.car_detail_color_name)
         val modelYearText: TextView = root.findViewById(R.id.car_detail_model_year)
-        val dailyPriceText: TextView = root.findViewById(R.id.car_detail_daily_price)
+        val dailyPriceText: TextView = root.findViewById(R.id.car_detail_daily_price)*/
 
         val carImageRepository = CarImageRepository()
         val carImageViewModelFactory = CarImageViewModelFactory(carImageRepository)
@@ -56,13 +59,24 @@ class CarDetailFragment : Fragment() {
 /*        recyclerView.adapter = carCardAdapter
         recyclerView.layoutManager = LinearLayoutManager(root.context)*/
 
+        val fragmentCarDetailBinding = FragmentCarDetailBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
 
         if (Helper.data is CarDetail) {
             val carDetail = Helper.data as CarDetail
-            descriptionText.text = carDetail.description
+
+            fragmentCarDetailBinding.carDetailDescription.text = carDetail.description
+            fragmentCarDetailBinding.carDetailColorName.text = carDetail.colorName
+            fragmentCarDetailBinding.carDetailModelYear.text = carDetail.modelYearFormatted
+            fragmentCarDetailBinding.carDetailDailyPrice.text = "\$ ${carDetail.dailyPrice} \nDaily"
+            /*descriptionText.text = carDetail.description
             colorNameText.text = carDetail.colorName
             modelYearText.text = carDetail.modelYearFormatted
-            dailyPriceText.text = "\$ ${carDetail.dailyPrice} \nDaily"
+            dailyPriceText.text = "\$ ${carDetail.dailyPrice} \nDaily"*/
 
 
             carImageViewModel.getCarImagesByCarId(carDetail.id).observe(
@@ -75,16 +89,17 @@ class CarDetailFragment : Fragment() {
                             Log.d("CAR IMAGE TESTING ", "carId: " + carImage.carId + "imageId: " + carImage.id)
                         }
 
-                        carDetailAdapter = CarDetailAdapter(root.context) {
+                        carDetailAdapter = CarDetailAdapter(fragmentCarDetailBinding.root.context) {
 
                         }
 
-                        val viewPager2 = root.findViewById<ViewPager2>(R.id.view_pager_2)
+                        //val viewPager2 = root.findViewById<ViewPager2>(R.id.view_pager_2)
+                        val viewPager2 = fragmentCarDetailBinding.viewPager2
                         viewPager2.adapter = carDetailAdapter
                         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-                        val circleIndicator = root.findViewById<CircleIndicator3>(R.id.circle_indicator)
-
+                        //val circleIndicator = root.findViewById<CircleIndicator3>(R.id.circle_indicator)
+                        val circleIndicator = fragmentCarDetailBinding.circleIndicator
                         carDetailAdapter.setCarDetails(carImagesList)
                         circleIndicator.setViewPager(viewPager2)
                         /*imageView1.setImageBitmap(Helper.base64StringToBitmap(carImagesList[0].imagePath))
@@ -97,7 +112,8 @@ class CarDetailFragment : Fragment() {
                 })
         }
 
-        return root
+        return fragmentCarDetailBinding.root
+        //return root
     }
 
 }

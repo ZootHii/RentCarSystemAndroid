@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
 import com.zoothii.rent_car_system_android.databinding.CarDetailCardViewItemBinding
 import com.zoothii.rent_car_system_android.model.CarDetail
@@ -14,8 +15,9 @@ import com.zoothii.rent_car_system_android.util.Helper
 
 class CarsDetailAdapter(
     @NonNull private val context: Context, // I am not sure why should use this instead of parent ViewGroup
-    private val clickListener: (CarDetail) -> Unit
+    @Nullable private val clickListener: ((CarDetail, ArrayList<CarDetail>) -> Unit)? = null
 ) : RecyclerView.Adapter<CarsDetailAdapter.CarsDetailViewHolder>(), Filterable {
+
 
     private val carsDetailList: ArrayList<CarDetail> = ArrayList()
     private val carsDetailListFull: ArrayList<CarDetail> = ArrayList()
@@ -34,7 +36,9 @@ class CarsDetailAdapter(
     override fun onBindViewHolder(holder: CarsDetailViewHolder, position: Int) {
         val currentCarDetailItem: CarDetail = carsDetailList[position]
         holder.bindItems(currentCarDetailItem)
-        holder.itemView.setOnClickListener { clickListener(currentCarDetailItem) }
+        if (clickListener != null){
+            holder.itemView.setOnClickListener { clickListener.invoke(currentCarDetailItem, carsDetailList) }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -43,31 +47,36 @@ class CarsDetailAdapter(
 
     override fun getFilter(): Filter {
         return object : Filter() {
-            val filteredCarDetailList: ArrayList<CarDetail> = ArrayList()
             override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                val filteredCarDetailList: ArrayList<CarDetail> = ArrayList()
                 if (constraint.isNullOrEmpty()) {
                     filteredCarDetailList.addAll(carsDetailListFull)
+                    Log.d("List filteredCarDetailList", carsDetailListFull.size.toString())
                 } else {
                     val filterPattern: String = constraint.toString().toLowerCase().trim()
 
                     carsDetailListFull.forEach { carDetail ->
-                        when {
-                            carDetail.description.toLowerCase().contains(filterPattern) -> {
-                                filteredCarDetailList.add(carDetail)
-                            }
-                            carDetail.brandName.toLowerCase().contains(filterPattern) -> {
-                                filteredCarDetailList.add(carDetail)
-                            }
-                            carDetail.colorName.toLowerCase().contains(filterPattern) -> {
-                                filteredCarDetailList.add(carDetail)
-                            }
-                            carDetail.dailyPrice.toString().contains(filterPattern) -> {
-                                filteredCarDetailList.add(carDetail)
-                            }
-                            carDetail.modelYearFormatted.contains(filterPattern) -> {
-                                filteredCarDetailList.add(carDetail)
-                            }
+                        if (carDetail.description.toLowerCase().contains(filterPattern)
+                            || carDetail.brandName.toLowerCase().contains(filterPattern)
+                            || carDetail.colorName.toLowerCase().contains(filterPattern)
+                            || carDetail.dailyPrice.toString().contains(filterPattern)
+                            || carDetail.modelYearFormatted.contains(filterPattern)
+                        ) {
+                            filteredCarDetailList.add(carDetail)
                         }
+                        /*else if () {
+                            filteredCarDetailList.add(carDetail)
+                        }
+                        else if () {
+                            filteredCarDetailList.add(carDetail)
+                        }
+                        else if () {
+                            filteredCarDetailList.add(carDetail)
+                        }
+                        else if () {
+                            filteredCarDetailList.add(carDetail)
+                        }*/
                     }
 
                 }
@@ -80,18 +89,34 @@ class CarsDetailAdapter(
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 carsDetailList.clear()
                 val list: ArrayList<CarDetail> = results?.values as ArrayList<CarDetail>
-                carsDetailList.addAll(list)
+                Log.d("List list", list.size.toString())
+                //carsDetailList.addAll(list)
+                setCarDetails(list)
+                //filteredCarDetailList.clear()
 
-                notifyDataSetChanged()
+                //notifyDataSetChanged()
+                //carsDetailListFull.clear()
             }
 
         }
     }
 
     fun setCarDetails(carDetailList: ArrayList<CarDetail>) {
+
+        this.carsDetailList.clear()
         this.carsDetailList.addAll(carDetailList)
-        carsDetailListFull.addAll(carDetailList) // todo carDetailListFull = carDetailList does not work IDK why AAJHHHH
-        Log.d("Search ALL", carDetailList.size.toString())
+
+        //filteredCarDetailList.clear()
+        //Log.d("List filteredCarDetailList", filteredCarDetailList.size.toString())
+        Log.d("List carsDetailListFull", carsDetailListFull.size.toString())
+        Log.d("List carsDetailList", carsDetailList.size.toString())
+
+        //carsDetailListFull.clear()
+        if (carsDetailListFull.isEmpty()) {
+            carsDetailListFull.addAll(carDetailList) // todo carDetailListFull = carDetailList does not work IDK why AAJHHHH
+
+        }
+        //Log.d("List ALL", carDetailList.size.toString())
         this.notifyDataSetChanged()
     }
 

@@ -4,16 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
 import com.zoothii.rent_car_system_android.databinding.CarDetailViewItemBinding
-import com.zoothii.rent_car_system_android.model.CarDetail
-
 import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.util.Helper
 
 class CarDetailAdapter(
     @NonNull private val context: Context, // I am not sure why should use this instead of parent ViewGroup
-    private val clickListener: (CarImage) -> Unit
+    @Nullable private val clickListener: ((CarImage) -> Unit)? = null
 ) : RecyclerView.Adapter<CarDetailAdapter.CarDetailViewHolder>() {
 
     private var carImagesList: List<CarImage> = ArrayList()
@@ -31,7 +30,9 @@ class CarDetailAdapter(
     override fun onBindViewHolder(holder: CarDetailViewHolder, position: Int) {
         val currentCarDetailItem: CarImage = carImagesList[position]
         holder.bindItems(currentCarDetailItem)
-        holder.itemView.setOnClickListener { clickListener(currentCarDetailItem) }
+        if (clickListener != null){
+            holder.itemView.setOnClickListener { clickListener.invoke(currentCarDetailItem) }
+        }
     }
 
     override fun getItemCount(): Int {

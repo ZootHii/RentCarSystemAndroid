@@ -8,22 +8,17 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zoothii.rent_car_system_android.R
 import com.zoothii.rent_car_system_android.adapter.CarsDetailAdapter
-import com.zoothii.rent_car_system_android.di.AppModule
 import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.model.CarImage
-import com.zoothii.rent_car_system_android.repository.CarRepository
 import com.zoothii.rent_car_system_android.ui.car_detail.CarDetailActivity
 import com.zoothii.rent_car_system_android.util.Helper
 import com.zoothii.rent_car_system_android.view_and_factory.car_image.CarImageViewModel
 import com.zoothii.rent_car_system_android.view_and_factory.car.CarViewModel
-import com.zoothii.rent_car_system_android.view_and_factory.car.CarViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CarsDetailFragment : Fragment() {
@@ -38,10 +33,10 @@ class CarsDetailFragment : Fragment() {
     private lateinit var carCardAdapter: CarsDetailAdapter
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+/*    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
+
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +59,9 @@ class CarsDetailFragment : Fragment() {
 
         //carViewModel = ViewModelProvider(this, CarViewModelFactory()).get(CarViewModel::class.java)
 
-        carCardAdapter = CarsDetailAdapter(root.context) { carDetail -> // clickListener call
+        carCardAdapter = CarsDetailAdapter(root.context) { carDetail, List -> // clickListener call
+
+            Log.d("CLICK", List.size.toString())
             Log.d("CLICK", carDetail.id.toString())
             Log.d("CLICK", carDetail.description)
             Log.d("CLICK", carDetail.dailyPrice.toString())
@@ -74,6 +71,7 @@ class CarsDetailFragment : Fragment() {
 
             Helper.data = carDetail
 
+            //carCardAdapter.setCarDetails(carDetailList)
             /*activity?.startActivity(intent)*/
             startActivity(intent)
         }
@@ -89,6 +87,8 @@ class CarsDetailFragment : Fragment() {
             { responseCarDetailData ->
                 if (responseCarDetailData.success) {
                     carDetailList = responseCarDetailData.data.toCollection(ArrayList())
+
+                    Log.d("Message", responseCarDetailData.message.toString())
 
                     carCardAdapter.setCarDetails(carDetailList)
                     Helper.progressBarShow(root, false)
