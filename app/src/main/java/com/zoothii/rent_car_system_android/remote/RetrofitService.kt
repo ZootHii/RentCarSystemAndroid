@@ -14,9 +14,7 @@ object RetrofitService {
         .client(okHttpClient)
         .build()
 
-
     fun <T> buildService(service: Class<T>): T {
         return retrofit.create(service)
     }
-
 }

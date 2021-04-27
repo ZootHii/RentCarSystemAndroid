@@ -1,3 +1,4 @@
+/*
 package com.zoothii.rent_car_system_android.remote.service
 
 import com.zoothii.rent_car_system_android.model.Brand
@@ -26,4 +27,5 @@ interface IBrandsService {
 
     @POST("Brands/delete")
     fun deleteBrand(@Body brand: Brand): Call<ResponseModel>
-}
+
+}*/

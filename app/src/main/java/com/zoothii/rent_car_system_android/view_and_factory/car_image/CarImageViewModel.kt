@@ -3,17 +3,19 @@ package com.zoothii.rent_car_system_android.view_and_factory.car_image
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zoothii.rent_car_system_android.model.Car
-import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.model.response.DataResponseModel
 import com.zoothii.rent_car_system_android.model.response.ResponseModel
 import com.zoothii.rent_car_system_android.model.response.SingleDataResponseModel
 import com.zoothii.rent_car_system_android.repository.CarImageRepository
-import com.zoothii.rent_car_system_android.repository.CarRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CarImageViewModel (private val repository: CarImageRepository) : ViewModel() {
+@HiltViewModel
+class CarImageViewModel @Inject constructor(
+    private val repository: CarImageRepository
+) : ViewModel() {
 
     lateinit var carImageDataResponse: MutableLiveData<DataResponseModel<CarImage>>
     lateinit var carImageSingleDataResponse: MutableLiveData<SingleDataResponseModel<CarImage>>
@@ -67,18 +69,10 @@ class CarImageViewModel (private val repository: CarImageRepository) : ViewModel
         }
     }*/
 
-    fun getCarImagesByCarId(carId: Int): MutableLiveData<DataResponseModel<CarImage>>{
+    fun getCarImagesByCarId(carId: Int): MutableLiveData<DataResponseModel<CarImage>> {
         viewModelScope.launch {
             carImageDataResponse = repository.getCarImagesByCarId(carId)
         }
         return carImageDataResponse
     }
-
-    /*fun getCarPreviewFirstImageByCarId(carId: Int){ // TODO no need backend modification has been made
-        viewModelScope.launch {
-            carImageSingleDataResponse = repository.getCarPreviewFirstImageByCarId(carId)
-        }
-    }*/
-
-
 }

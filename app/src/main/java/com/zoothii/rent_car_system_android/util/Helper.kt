@@ -1,21 +1,16 @@
 package com.zoothii.rent_car_system_android.util
 
-
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
-import android.view.View
 import androidx.core.widget.ContentLoadingProgressBar
-import com.zoothii.rent_car_system_android.R
 import org.json.JSONObject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-
 @Suppress("UNCHECKED_CAST")
 class Helper {
-    //private lateinit var progressBar: ContentLoadingProgressBar
 
     companion object {
 
@@ -38,10 +33,7 @@ class Helper {
             }
         }
 
-        fun progressBarShow(view: View, show: Boolean) {
-            val progressBar = view.findViewById<ContentLoadingProgressBar>(R.id.progress_bar)
-            //val progressBar = vi.findViewById<ContentLoadingProgressBar>(R.id.progress_bar)
-
+        fun progressBarShow(progressBar: ContentLoadingProgressBar, show: Boolean) {
             if (show) {
                 progressBar.show()
             }
@@ -51,18 +43,8 @@ class Helper {
         }
 
         fun base64StringToBitmap(base64String: String): Bitmap {
-            /*if (base64String.isEmpty() || base64String.isBlank()){
-
-
-
-                val imageBytes = Base64.decode(defaultBase64String.toByteArray(), Base64.DEFAULT)
-                return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-
-            }*/
             val imageBytes = Base64.decode(base64String, Base64.DEFAULT)
             return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         }
-        //val defaultBase64String = "            \"iVBORw0KGgoAAAANSUhEUgAAAFgAAABSCAYAAADQDhNSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADASURBVHhe7dAxAQAwDAShSnn/JlMVtzFggLft6AiOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JjgmOCY4JTu0+5EuoCxuSR1YAAAAASUVORK5CYII=\"\n"
     }
-
 }

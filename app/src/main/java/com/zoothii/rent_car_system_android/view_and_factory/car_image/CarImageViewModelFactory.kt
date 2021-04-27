@@ -1,3 +1,4 @@
+/*
 package com.zoothii.rent_car_system_android.view_and_factory.car_image
 
 import androidx.lifecycle.ViewModel
@@ -11,4 +12,4 @@ class CarImageViewModelFactory(private val repository: CarImageRepository) : Vie
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return CarImageViewModel(repository) as T
     }
-}
+}*/

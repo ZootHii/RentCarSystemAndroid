@@ -1,8 +1,5 @@
 package com.zoothii.rent_car_system_android.repository
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.zoothii.rent_car_system_android.model.Car
@@ -10,30 +7,17 @@ import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.model.response.DataResponseModel
 import com.zoothii.rent_car_system_android.model.response.ResponseModel
 import com.zoothii.rent_car_system_android.model.response.SingleDataResponseModel
-import com.zoothii.rent_car_system_android.remote.RetrofitService
 import com.zoothii.rent_car_system_android.remote.service.ICarsService
 import com.zoothii.rent_car_system_android.util.Helper
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class CarRepository(private val carService: ICarsService) {
 
-
-/*    companion object Factory {
-        fun create(): CarRepository = CarRepository()
-    }*/
-
-/*    private val carService: ICarsService by lazy {
-        RetrofitService.buildService(ICarsService::class.java)
-    }*/
-
-
-
     val carDetailDataResponse: MutableLiveData<DataResponseModel<CarDetail>> = MutableLiveData()
-    val carDetailSingleDataResponse: MutableLiveData<SingleDataResponseModel<CarDetail>> = MutableLiveData()
+    val carDetailSingleDataResponse: MutableLiveData<SingleDataResponseModel<CarDetail>> =
+        MutableLiveData()
     val carDataResponse: MutableLiveData<DataResponseModel<Car>> = MutableLiveData()
     val carSingleDataResponse: MutableLiveData<SingleDataResponseModel<Car>> = MutableLiveData()
     val carResponse: MutableLiveData<ResponseModel> = MutableLiveData()
@@ -202,87 +186,92 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun getAllCarsDetailsWithPreviewFirstImage(): MutableLiveData<DataResponseModel<CarDetail>> {
-        carService.getAllCarsDetailsWithPreviewFirstImage().enqueue(object : Callback<DataResponseModel<CarDetail>> {
-            override fun onResponse(
-                call: Call<DataResponseModel<CarDetail>>,
-                response: Response<DataResponseModel<CarDetail>>
-            ) {
-                if (response.isSuccessful) {
-                    carDetailDataResponse.value = response.body();
-                } else {
-                    Log.d("Error", response.message().toString())
-                    Log.d("Error", response.toString())
+        carService.getAllCarsDetailsWithPreviewFirstImage()
+            .enqueue(object : Callback<DataResponseModel<CarDetail>> {
+                override fun onResponse(
+                    call: Call<DataResponseModel<CarDetail>>,
+                    response: Response<DataResponseModel<CarDetail>>
+                ) {
+                    if (response.isSuccessful) {
+                        carDetailDataResponse.value = response.body();
+                    } else {
+                        Log.d("Error", response.message().toString())
+                        Log.d("Error", response.toString())
 
-                    Helper.handleError(response.errorBody()!!.string())
+                        Helper.handleError(response.errorBody()!!.string())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<DataResponseModel<CarDetail>>, t: Throwable) {
-                Log.d("Failure", t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<DataResponseModel<CarDetail>>, t: Throwable) {
+                    Log.d("Failure", t.message.toString())
+                }
+            })
         return carDetailDataResponse
     }
 
     fun getCarsDetailsByColorId(colorId: Int): MutableLiveData<DataResponseModel<CarDetail>> {
-        carService.getCarsDetailsByColorId(colorId).enqueue(object : Callback<DataResponseModel<CarDetail>> {
-            override fun onResponse(
-                call: Call<DataResponseModel<CarDetail>>,
-                response: Response<DataResponseModel<CarDetail>>
-            ) {
-                if (response.isSuccessful) {
-                    carDetailDataResponse.value = response.body();
-                } else {
-                    Helper.handleError(response.errorBody()!!.string())
+        carService.getCarsDetailsByColorId(colorId)
+            .enqueue(object : Callback<DataResponseModel<CarDetail>> {
+                override fun onResponse(
+                    call: Call<DataResponseModel<CarDetail>>,
+                    response: Response<DataResponseModel<CarDetail>>
+                ) {
+                    if (response.isSuccessful) {
+                        carDetailDataResponse.value = response.body();
+                    } else {
+                        Helper.handleError(response.errorBody()!!.string())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<DataResponseModel<CarDetail>>, t: Throwable) {
-                Log.d("Failure", t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<DataResponseModel<CarDetail>>, t: Throwable) {
+                    Log.d("Failure", t.message.toString())
+                }
+            })
         return carDetailDataResponse
     }
 
     fun getCarsDetailsByBrandId(brandId: Int): MutableLiveData<DataResponseModel<CarDetail>> {
-        carService.getCarsDetailsByBrandId(brandId).enqueue(object : Callback<DataResponseModel<CarDetail>> {
-            override fun onResponse(
-                call: Call<DataResponseModel<CarDetail>>,
-                response: Response<DataResponseModel<CarDetail>>
-            ) {
-                if (response.isSuccessful) {
-                    carDetailDataResponse.value = response.body();
-                } else {
-                    Helper.handleError(response.errorBody()!!.string())
+        carService.getCarsDetailsByBrandId(brandId)
+            .enqueue(object : Callback<DataResponseModel<CarDetail>> {
+                override fun onResponse(
+                    call: Call<DataResponseModel<CarDetail>>,
+                    response: Response<DataResponseModel<CarDetail>>
+                ) {
+                    if (response.isSuccessful) {
+                        carDetailDataResponse.value = response.body();
+                    } else {
+                        Helper.handleError(response.errorBody()!!.string())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<DataResponseModel<CarDetail>>, t: Throwable) {
-                Log.d("Failure", t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<DataResponseModel<CarDetail>>, t: Throwable) {
+                    Log.d("Failure", t.message.toString())
+                }
+            })
         return carDetailDataResponse
     }
 
     fun getCarDetailsByCarId(carId: Int): MutableLiveData<SingleDataResponseModel<CarDetail>> {
-        carService.getCarDetailsByCarId(carId).enqueue(object : Callback<SingleDataResponseModel<CarDetail>> {
-            override fun onResponse(
-                call: Call<SingleDataResponseModel<CarDetail>>,
-                response: Response<SingleDataResponseModel<CarDetail>>
-            ) {
-                if (response.isSuccessful) {
-                    carDetailSingleDataResponse.value = response.body();
-                } else {
-                    Helper.handleError(response.errorBody()!!.string())
+        carService.getCarDetailsByCarId(carId)
+            .enqueue(object : Callback<SingleDataResponseModel<CarDetail>> {
+                override fun onResponse(
+                    call: Call<SingleDataResponseModel<CarDetail>>,
+                    response: Response<SingleDataResponseModel<CarDetail>>
+                ) {
+                    if (response.isSuccessful) {
+                        carDetailSingleDataResponse.value = response.body();
+                    } else {
+                        Helper.handleError(response.errorBody()!!.string())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<SingleDataResponseModel<CarDetail>>, t: Throwable) {
-                Log.d("Failure", t.message.toString())
-            }
-        })
+                override fun onFailure(
+                    call: Call<SingleDataResponseModel<CarDetail>>,
+                    t: Throwable
+                ) {
+                    Log.d("Failure", t.message.toString())
+                }
+            })
         return carDetailSingleDataResponse
     }
-
-
 }

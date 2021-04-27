@@ -11,7 +11,7 @@ import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.util.Helper
 
 class CarDetailAdapter(
-    @NonNull private val context: Context, // I am not sure why should use this instead of parent ViewGroup
+    @NonNull private val context: Context,
     @Nullable private val clickListener: ((CarImage) -> Unit)? = null
 ) : RecyclerView.Adapter<CarDetailAdapter.CarDetailViewHolder>() {
 
@@ -30,7 +30,7 @@ class CarDetailAdapter(
     override fun onBindViewHolder(holder: CarDetailViewHolder, position: Int) {
         val currentCarDetailItem: CarImage = carImagesList[position]
         holder.bindItems(currentCarDetailItem)
-        if (clickListener != null){
+        if (clickListener != null) {
             holder.itemView.setOnClickListener { clickListener.invoke(currentCarDetailItem) }
         }
     }
@@ -50,15 +50,12 @@ class CarDetailAdapter(
         carDetailViewItemBinding.root
     ) {
 
-
         fun bindItems(currentCarDetailItem: CarImage) {
             carDetailViewItemBinding.carDetailImage.setImageBitmap(
                 Helper.base64StringToBitmap(
                     currentCarDetailItem.imagePath
                 )
             )
-
         }
-
     }
 }

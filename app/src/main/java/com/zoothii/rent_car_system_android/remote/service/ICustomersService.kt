@@ -1,3 +1,4 @@
+/*
 package com.zoothii.rent_car_system_android.remote.service
 
 import com.zoothii.rent_car_system_android.model.Customer
@@ -5,7 +6,10 @@ import com.zoothii.rent_car_system_android.model.response.DataResponseModel
 import com.zoothii.rent_car_system_android.model.response.ResponseModel
 import com.zoothii.rent_car_system_android.model.response.SingleDataResponseModel
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ICustomersService {
 
@@ -30,5 +34,4 @@ interface ICustomersService {
     @GET("Customers/get/by/user/id")
     fun getCustomerByUserId(@Query("userId") userId: Int): Call<SingleDataResponseModel<Customer>>
 
-
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.zoothii.rent_car_system_android.repository
 
 import android.util.Log
@@ -127,4 +128,4 @@ class ColorRepository {
         })
         return colorResponse
     }
-}
+}*/

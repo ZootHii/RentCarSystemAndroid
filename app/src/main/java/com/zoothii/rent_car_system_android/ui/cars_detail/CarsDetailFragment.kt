@@ -3,20 +3,20 @@ package com.zoothii.rent_car_system_android.ui.cars_detail
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zoothii.rent_car_system_android.R
 import com.zoothii.rent_car_system_android.adapter.CarsDetailAdapter
+import com.zoothii.rent_car_system_android.databinding.FragmentCarsDetailBinding
 import com.zoothii.rent_car_system_android.model.CarDetail
-import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.ui.car_detail.CarDetailActivity
 import com.zoothii.rent_car_system_android.util.Helper
-import com.zoothii.rent_car_system_android.view_and_factory.car_image.CarImageViewModel
 import com.zoothii.rent_car_system_android.view_and_factory.car.CarViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,74 +24,52 @@ import dagger.hilt.android.AndroidEntryPoint
 class CarsDetailFragment : Fragment() {
 
     private val carViewModel: CarViewModel by viewModels()
-    //private lateinit var carViewModel: CarViewModel
-    private lateinit var carImageViewModel: CarImageViewModel
     private lateinit var recyclerView: RecyclerView
-    private var carDetailList: ArrayList<CarDetail> = ArrayList()
-    private var carImageList: ArrayList<CarImage> = ArrayList()
-    private lateinit var carImage: CarImage
     private lateinit var carCardAdapter: CarsDetailAdapter
-
-
-/*    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }*/
+    private lateinit var carDetailList: ArrayList<CarDetail>
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        val root = inflater.inflate(R.layout.fragment_cars_detail, container, false)
-        val toolbar = root.findViewById<Toolbar>(R.id.toolbar_cars_detail)
+        val fragmentCarsDetailBinding = FragmentCarsDetailBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+        val fragmentRoot = fragmentCarsDetailBinding.root
+        val toolbar = fragmentCarsDetailBinding.toolbarCarsDetail
         toolbar.title = "Cars"
         toolbar.inflateMenu(R.menu.search_bar_menu)
-
         val searchItem = toolbar.menu.findItem(R.id.navigation_search)
         val searchView = searchItem.actionView as SearchView
+        val progressBar = fragmentCarsDetailBinding.progressBar
+        recyclerView = fragmentCarsDetailBinding.recyclerView
 
-        recyclerView = root.findViewById(R.id.recycler_view)
-
-        //val carRepository = CarRepository() // todo Dependency injection ->done
-        //val carViewModelFactory = CarViewModelFactory(carRepository) // todo Dependency injection ->done
-
-        //carViewModel = ViewModelProvider(this, CarViewModelFactory()).get(CarViewModel::class.java)
-
-        carCardAdapter = CarsDetailAdapter(root.context) { carDetail, List -> // clickListener call
-
-            Log.d("CLICK", List.size.toString())
-            Log.d("CLICK", carDetail.id.toString())
-            Log.d("CLICK", carDetail.description)
-            Log.d("CLICK", carDetail.dailyPrice.toString())
-
+        carCardAdapter = CarsDetailAdapter(fragmentRoot.context) { carDetail, carsDetailList ->
             val intent = Intent(activity, CarDetailActivity::class.java)
-            //intent.putExtra("carDetail", "Gson().toJson(carDetail)111")
 
             Helper.data = carDetail
 
+            //intent.putExtra("carDetail", "Gson().toJson(carDetail)111") // TODO does not work with huge data so I used helper static object
             //carCardAdapter.setCarDetails(carDetailList)
-            /*activity?.startActivity(intent)*/
             startActivity(intent)
         }
 
-
         recyclerView.adapter = carCardAdapter
-        recyclerView.layoutManager = LinearLayoutManager(root.context)
+        recyclerView.layoutManager = LinearLayoutManager(fragmentRoot.context)
 
-
-        Helper.progressBarShow(root, true)
+        Helper.progressBarShow(progressBar, true)
         carViewModel.getAllCarsDetailsWithPreviewFirstImage().observe(
             viewLifecycleOwner,
             { responseCarDetailData ->
                 if (responseCarDetailData.success) {
+
                     carDetailList = responseCarDetailData.data.toCollection(ArrayList())
-
-                    Log.d("Message", responseCarDetailData.message.toString())
-
                     carCardAdapter.setCarDetails(carDetailList)
-                    Helper.progressBarShow(root, false)
+                    Helper.progressBarShow(progressBar, false)
 
                 } else {
                     Log.d("Message", responseCarDetailData.message.toString())
@@ -99,8 +77,7 @@ class CarsDetailFragment : Fragment() {
                 }
             })
 
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
@@ -112,11 +89,8 @@ class CarsDetailFragment : Fragment() {
 
         })
 
-
-        return root
+        return fragmentRoot
     }
-
-
 }
 
 

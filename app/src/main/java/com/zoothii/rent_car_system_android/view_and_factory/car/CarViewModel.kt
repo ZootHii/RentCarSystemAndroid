@@ -1,6 +1,5 @@
 package com.zoothii.rent_car_system_android.view_and_factory.car
 
-
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,17 +15,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CarViewModel @Inject constructor(
-    private val repository: CarRepository) : ViewModel() {
-
-
-    /*private val repository: CarRepository = CarRepository()*/
+    private val repository: CarRepository
+) : ViewModel() {
 
     lateinit var carDataResponse: MutableLiveData<DataResponseModel<Car>>
     private lateinit var carDetailDataResponse: MutableLiveData<DataResponseModel<CarDetail>>
     lateinit var carDetailSingleDataResponse: MutableLiveData<SingleDataResponseModel<CarDetail>>
     lateinit var carSingleDataResponse: MutableLiveData<SingleDataResponseModel<Car>>
     lateinit var carResponse: MutableLiveData<ResponseModel>
-
 
     fun getAllCars(): MutableLiveData<DataResponseModel<Car>> {
         viewModelScope.launch {
@@ -86,10 +82,4 @@ class CarViewModel @Inject constructor(
         }
         return carDetailDataResponse
     }
-
-
-/*    val currentName: MutableLiveData<DataResponseModel<Car>> by lazy {
-        repository.getAllCars()
-    }*/
-
 }
