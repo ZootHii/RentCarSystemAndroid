@@ -1,5 +1,6 @@
 package com.zoothii.rent_car_system_android.ui.notifications
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,9 +24,16 @@ class NotificationsFragment : Fragment() {
                 ViewModelProvider(this).get(NotificationsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_notifications, container, false)
         val textView: TextView = root.findViewById(R.id.text_notifications)
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
+
+        val bundle = arguments
+        if (bundle != null) {
+            //textView.text = bundle.getString("value", "boş")
+            textView.text =  Calendar.getInstance().get(Calendar.YEAR).toString()
+        }
+
+        /*notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
-        })
+        })*/
         return root
     }
 }

@@ -1,5 +1,6 @@
 package com.zoothii.rent_car_system_android.ui.cars_detail
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -114,6 +115,7 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
                         val intent = Intent(activity, CarDetailActivity::class.java)
                         Helper.data = carDetail
                         startActivity(intent)
+
                     }
                 adapter = carCardAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -148,8 +150,7 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
                 toolbar.setOnMenuItemClickListener {
                     if (it.itemId == R.id.action_sort_by_daily_price) {
                         carCardAdapter.sortCarsBy(Helper.SORT_BY_DAILY_PRICE)
-                    }
-                    else if (it.itemId == R.id.action_sort_by_model_year){
+                    } else if (it.itemId == R.id.action_sort_by_model_year) {
                         carCardAdapter.sortCarsBy(Helper.SORT_BY_MODEL_YEAR)
                     }
                     true
@@ -163,7 +164,6 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
                 Log.d("Success", responseCarDetailData.success.toString())
             }
         }
-
 
 
     }
