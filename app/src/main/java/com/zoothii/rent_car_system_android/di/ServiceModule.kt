@@ -3,6 +3,7 @@ package com.zoothii.rent_car_system_android.di
 import com.zoothii.rent_car_system_android.remote.RetrofitService
 import com.zoothii.rent_car_system_android.remote.service.ICarImagesService
 import com.zoothii.rent_car_system_android.remote.service.ICarsService
+import com.zoothii.rent_car_system_android.remote.service.IRentalsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 object ServiceModule {
     @Singleton
     @Provides
-    fun provideCarsService(): ICarsService { // todo put another class for services
+    fun provideCarsService(): ICarsService {
         val service: ICarsService by lazy {
             RetrofitService.buildService(ICarsService::class.java)
         }
@@ -23,9 +24,18 @@ object ServiceModule {
 
     @Singleton
     @Provides
-    fun provideCarImagesService(): ICarImagesService { // todo put another class for services
+    fun provideCarImagesService(): ICarImagesService {
         val service: ICarImagesService by lazy {
             RetrofitService.buildService(ICarImagesService::class.java)
+        }
+        return service
+    }
+
+    @Singleton
+    @Provides
+    fun provideRentalsService(): IRentalsService {
+        val service: IRentalsService by lazy {
+            RetrofitService.buildService(IRentalsService::class.java)
         }
         return service
     }

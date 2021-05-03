@@ -13,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CarRepository(private val carService: ICarsService) {
+class CarRepository(private val carsService: ICarsService) {
 
     val carDetailDataResponse: MutableLiveData<DataResponseModel<CarDetail>> = MutableLiveData()
     val carDetailSingleDataResponse: MutableLiveData<SingleDataResponseModel<CarDetail>> =
@@ -23,7 +23,7 @@ class CarRepository(private val carService: ICarsService) {
     val carResponse: MutableLiveData<ResponseModel> = MutableLiveData()
 
     fun getAllCars(): MutableLiveData<DataResponseModel<Car>> {
-        carService.getAllCars().enqueue(object : Callback<DataResponseModel<Car>> {
+        carsService.getAllCars().enqueue(object : Callback<DataResponseModel<Car>> {
             override fun onResponse(
                 call: Call<DataResponseModel<Car>>,
                 response: Response<DataResponseModel<Car>>
@@ -43,7 +43,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun getCarById(id: Int): MutableLiveData<SingleDataResponseModel<Car>> {
-        carService.getCarById(id).enqueue(object : Callback<SingleDataResponseModel<Car>> {
+        carsService.getCarById(id).enqueue(object : Callback<SingleDataResponseModel<Car>> {
             override fun onResponse(
                 call: Call<SingleDataResponseModel<Car>>,
                 response: Response<SingleDataResponseModel<Car>>
@@ -63,7 +63,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun addCar(car: Car): MutableLiveData<ResponseModel> {
-        carService.addCar(car).enqueue(object : Callback<ResponseModel> {
+        carsService.addCar(car).enqueue(object : Callback<ResponseModel> {
             override fun onResponse(
                 call: Call<ResponseModel>,
                 response: Response<ResponseModel>
@@ -83,7 +83,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun updateCar(car: Car): MutableLiveData<ResponseModel> {
-        carService.updateCar(car).enqueue(object : Callback<ResponseModel> {
+        carsService.updateCar(car).enqueue(object : Callback<ResponseModel> {
             override fun onResponse(
                 call: Call<ResponseModel>,
                 response: Response<ResponseModel>
@@ -103,7 +103,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun deleteCar(car: Car): MutableLiveData<ResponseModel> {
-        carService.deleteCar(car).enqueue(object : Callback<ResponseModel> {
+        carsService.deleteCar(car).enqueue(object : Callback<ResponseModel> {
             override fun onResponse(
                 call: Call<ResponseModel>,
                 response: Response<ResponseModel>
@@ -123,7 +123,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun getCarsByColorId(colorId: Int): MutableLiveData<DataResponseModel<Car>> {
-        carService.getCarsByColorId(colorId).enqueue(object : Callback<DataResponseModel<Car>> {
+        carsService.getCarsByColorId(colorId).enqueue(object : Callback<DataResponseModel<Car>> {
             override fun onResponse(
                 call: Call<DataResponseModel<Car>>,
                 response: Response<DataResponseModel<Car>>
@@ -143,7 +143,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun getCarsByBrandId(brandId: Int): MutableLiveData<DataResponseModel<Car>> {
-        carService.getCarsByBrandId(brandId).enqueue(object : Callback<DataResponseModel<Car>> {
+        carsService.getCarsByBrandId(brandId).enqueue(object : Callback<DataResponseModel<Car>> {
             override fun onResponse(
                 call: Call<DataResponseModel<Car>>,
                 response: Response<DataResponseModel<Car>>
@@ -163,7 +163,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun getAllCarsDetails(): MutableLiveData<DataResponseModel<CarDetail>> {
-        carService.getAllCarsDetails().enqueue(object : Callback<DataResponseModel<CarDetail>> {
+        carsService.getAllCarsDetails().enqueue(object : Callback<DataResponseModel<CarDetail>> {
             override fun onResponse(
                 call: Call<DataResponseModel<CarDetail>>,
                 response: Response<DataResponseModel<CarDetail>>
@@ -186,7 +186,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun getAllCarsDetailsWithPreviewFirstImage(): MutableLiveData<DataResponseModel<CarDetail>> {
-        carService.getAllCarsDetailsWithPreviewFirstImage()
+        carsService.getAllCarsDetailsWithPreviewFirstImage()
             .enqueue(object : Callback<DataResponseModel<CarDetail>> {
                 override fun onResponse(
                     call: Call<DataResponseModel<CarDetail>>,
@@ -210,7 +210,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun getCarsDetailsByColorId(colorId: Int): MutableLiveData<DataResponseModel<CarDetail>> {
-        carService.getCarsDetailsByColorId(colorId)
+        carsService.getCarsDetailsByColorId(colorId)
             .enqueue(object : Callback<DataResponseModel<CarDetail>> {
                 override fun onResponse(
                     call: Call<DataResponseModel<CarDetail>>,
@@ -231,7 +231,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun getCarsDetailsByBrandId(brandId: Int): MutableLiveData<DataResponseModel<CarDetail>> {
-        carService.getCarsDetailsByBrandId(brandId)
+        carsService.getCarsDetailsByBrandId(brandId)
             .enqueue(object : Callback<DataResponseModel<CarDetail>> {
                 override fun onResponse(
                     call: Call<DataResponseModel<CarDetail>>,
@@ -252,7 +252,7 @@ class CarRepository(private val carService: ICarsService) {
     }
 
     fun getCarDetailsByCarId(carId: Int): MutableLiveData<SingleDataResponseModel<CarDetail>> {
-        carService.getCarDetailsByCarId(carId)
+        carsService.getCarDetailsByCarId(carId)
             .enqueue(object : Callback<SingleDataResponseModel<CarDetail>> {
                 override fun onResponse(
                     call: Call<SingleDataResponseModel<CarDetail>>,

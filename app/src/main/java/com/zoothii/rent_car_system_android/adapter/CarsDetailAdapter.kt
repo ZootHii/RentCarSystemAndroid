@@ -90,8 +90,6 @@ class CarsDetailAdapter(
     }
 
     fun setCarDetails(carDetailList: ArrayList<CarDetail>) {
-        Log.d("SORT", "TEKRAR AMK")
-
         this.carsDetailList.clear()
         this.carsDetailList.addAll(carDetailList)
         if (carsDetailListFull.isEmpty()) {

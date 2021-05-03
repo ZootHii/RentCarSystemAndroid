@@ -27,8 +27,8 @@ class NotificationsFragment : Fragment() {
 
         val bundle = arguments
         if (bundle != null) {
-            //textView.text = bundle.getString("value", "boş")
-            textView.text =  Calendar.getInstance().get(Calendar.YEAR).toString()
+            textView.text = bundle.getString("value", "boş")
+            //textView.text =  Calendar.getInstance().get(Calendar.YEAR).toString()
         }
 
         /*notificationsViewModel.text.observe(viewLifecycleOwner, Observer {

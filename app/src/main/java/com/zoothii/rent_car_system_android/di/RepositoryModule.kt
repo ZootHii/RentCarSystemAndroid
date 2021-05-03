@@ -2,8 +2,10 @@ package com.zoothii.rent_car_system_android.di
 
 import com.zoothii.rent_car_system_android.remote.service.ICarImagesService
 import com.zoothii.rent_car_system_android.remote.service.ICarsService
+import com.zoothii.rent_car_system_android.remote.service.IRentalsService
 import com.zoothii.rent_car_system_android.repository.CarImageRepository
 import com.zoothii.rent_car_system_android.repository.CarRepository
+import com.zoothii.rent_car_system_android.repository.RentalRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,13 +17,19 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Singleton
     @Provides
-    fun provideCarRepository(carService: ICarsService): CarRepository { // todo put another class for repositories
+    fun provideCarRepository(carService: ICarsService): CarRepository {
         return CarRepository(carService)
     }
 
     @Singleton
     @Provides
-    fun provideCarImageRepository(carImagesService: ICarImagesService): CarImageRepository { // todo put another class for repositories
+    fun provideCarImageRepository(carImagesService: ICarImagesService): CarImageRepository {
         return CarImageRepository(carImagesService)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRentalRepository(rentalsService: IRentalsService): RentalRepository {
+        return RentalRepository(rentalsService)
     }
 }

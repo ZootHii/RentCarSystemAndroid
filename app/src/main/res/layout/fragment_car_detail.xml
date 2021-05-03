@@ -115,6 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:text="Rent now"
+                android:textAllCaps="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
@@ -168,8 +169,13 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:text="RENT"
-        android:textSize="30sp"
+        android:padding="8dp"
+        android:text="Rent The Car"
+        android:textAllCaps="false"
+        android:maxLines="1"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="17sp"
+        android:autoSizeMaxTextSize="22sp"
         android:background="@drawable/color_circle_indicator">
     </Button>
 </LinearLayout>
