@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <ImageView
         android:id="@+id/car_detail_image"
         android:layout_width="392.4dp"
@@ -19,6 +18,3 @@
     </ImageView>
 
 </RelativeLayout>
-
-    <!--android:layout_width="392.4dp"
-            android:layout_height="220.725dp"-->

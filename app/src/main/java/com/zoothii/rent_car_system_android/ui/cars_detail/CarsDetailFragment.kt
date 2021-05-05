@@ -16,9 +16,11 @@ import com.zoothii.rent_car_system_android.R
 import com.zoothii.rent_car_system_android.adapter.CarsDetailAdapter
 import com.zoothii.rent_car_system_android.databinding.FragmentCarsDetailBinding
 import com.zoothii.rent_car_system_android.model.CarDetail
-import com.zoothii.rent_car_system_android.ui.car_detail.CarDetailActivity
+import com.zoothii.rent_car_system_android.ui.activity.RentalActivity
+import com.zoothii.rent_car_system_android.util.Constant.Companion.SORT_BY_DAILY_PRICE
+import com.zoothii.rent_car_system_android.util.Constant.Companion.SORT_BY_MODEL_YEAR
 import com.zoothii.rent_car_system_android.util.Helper
-import com.zoothii.rent_car_system_android.view_and_factory.car.CarViewModel
+import com.zoothii.rent_car_system_android.view_model.CarViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,7 +46,7 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
             recyclerView = recyclerViewCarsDetail.apply {
                 carCardAdapter =
                     CarsDetailAdapter(fragmentCarsDetailBinding.root.context) { carDetail, carsDetailList ->
-                        val intent = Intent(activity, CarDetailActivity::class.java)
+                        val intent = Intent(activity, RentalActivity::class.java)
                         Helper.data = carDetail
                         startActivity(intent)
 
@@ -55,7 +57,7 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
             }
             toolbar = toolbarCarsDetail.apply {
                 title = titleToolbar
-                inflateMenu(R.menu.action_bar_menu_cars_details)
+                inflateMenu(R.menu.action_bar_cars_details_menu)
                 (menu.findItem(R.id.action_search).actionView as SearchView).apply {
                     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                         override fun onQueryTextSubmit(query: String?): Boolean {
@@ -71,6 +73,7 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
             }
         }
 
+        // TODO I can sort my cars in backend then subscribe by the order choice but I am not sure
         Helper.progressBarShow(progressBar, true)
         carViewModel.getAllCarsDetailsWithPreviewFirstImage().observe(
             viewLifecycleOwner
@@ -81,9 +84,9 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
 
                 toolbar.setOnMenuItemClickListener {
                     if (it.itemId == R.id.action_sort_by_daily_price) {
-                        carCardAdapter.sortCarsBy(Helper.SORT_BY_DAILY_PRICE)
+                        carCardAdapter.sortCarsBy(SORT_BY_DAILY_PRICE)
                     } else if (it.itemId == R.id.action_sort_by_model_year) {
-                        carCardAdapter.sortCarsBy(Helper.SORT_BY_MODEL_YEAR)
+                        carCardAdapter.sortCarsBy(SORT_BY_MODEL_YEAR)
                     }
                     true
                 }

@@ -27,7 +27,7 @@ class NotificationsFragment : Fragment() {
 
         val bundle = arguments
         if (bundle != null) {
-            textView.text = bundle.getString("value", "boş")
+            textView.text = bundle.getString("value", "boş") +"/"+ bundle.getInt("carId") +"/"+ bundle.getDouble("totalPrice")
             //textView.text =  Calendar.getInstance().get(Calendar.YEAR).toString()
         }
 

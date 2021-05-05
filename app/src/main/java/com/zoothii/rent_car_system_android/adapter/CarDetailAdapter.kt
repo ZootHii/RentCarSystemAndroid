@@ -24,7 +24,6 @@ class CarDetailAdapter(
             false
         )
         return CarDetailViewHolder(carDetailViewItemBinding)
-
     }
 
     override fun onBindViewHolder(holder: CarDetailViewHolder, position: Int) {

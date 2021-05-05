@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import com.zoothii.rent_car_system_android.R
 import com.zoothii.rent_car_system_android.adapter.CarDetailAdapter
@@ -15,10 +15,9 @@ import com.zoothii.rent_car_system_android.databinding.FragmentCarDetailBinding
 import com.zoothii.rent_car_system_android.model.CarDetail
 import com.zoothii.rent_car_system_android.model.CarImage
 import com.zoothii.rent_car_system_android.model.Rental
-import com.zoothii.rent_car_system_android.ui.notifications.NotificationsFragment
 import com.zoothii.rent_car_system_android.util.Helper
-import com.zoothii.rent_car_system_android.view_and_factory.RentalViewModel
-import com.zoothii.rent_car_system_android.view_and_factory.car_image.CarImageViewModel
+import com.zoothii.rent_car_system_android.view_model.CarImageViewModel
+import com.zoothii.rent_car_system_android.view_model.RentalViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator3
 import java.time.LocalDateTime
@@ -65,7 +64,15 @@ class CarDetailFragment : Fragment(R.layout.fragment_car_detail) {
                     val carDetail = Helper.data as CarDetail
                     text = "Rent The ${carDetail.brandName}"
                 }
+                setOnClickListener {
+                    Helper.showToastMessage(
+                        requireContext(),
+                        "Please, select time interval.",
+                        false
+                    )
+                }
             }
+            carDetailReturnDateButton.isEnabled = false
         }
 
 
@@ -95,6 +102,7 @@ class CarDetailFragment : Fragment(R.layout.fragment_car_detail) {
             }
         }
         setDateTimeSetListenerButtons()
+
     }
 
     private fun setDateTimeSetListenerButtons() {
@@ -151,6 +159,7 @@ class CarDetailFragment : Fragment(R.layout.fragment_car_detail) {
         }
     }
 
+
     private fun onDateSetListenerForRent(): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
             yearValue = year
@@ -169,12 +178,15 @@ class CarDetailFragment : Fragment(R.layout.fragment_car_detail) {
                 dayValue, hourOfDay, minute
             )
             rentLocalDateTime = LocalDateTime.parse(rentJsonTimeString)
-            fragmentCarDetailBinding.carDetailRentDateButton.text = String.format(
-                "%02d.%02d.%d/%02d:%02d",
-                dayValue,
-                monthValue,
-                yearValue, hourOfDay, minute
-            )
+            fragmentCarDetailBinding.apply {
+                carDetailRentDateButton.text = String.format(
+                    "%02d.%02d.%d/%02d:%02d",
+                    dayValue,
+                    monthValue,
+                    yearValue, hourOfDay, minute
+                )
+                carDetailReturnDateButton.isEnabled = true
+            }
             if (isRentDateTimeSet) {
                 calculateDayDifference()
                 setRentButton()
@@ -194,63 +206,76 @@ class CarDetailFragment : Fragment(R.layout.fragment_car_detail) {
         fragmentCarDetailBinding.carDetailRentButton.apply {
             if (Helper.data is CarDetail) {
                 val carDetail = Helper.data as CarDetail
-                val wrongInterval = (minutesDiff!! < 0)
-                val rentAtLeast2Hours = (hourDiff!! < 2 && hourDiff!! >= 0)
-                text = when {
+                val wrongInterval: Boolean = (minutesDiff!! < 0)
+                val rentAtLeast2Hours: Boolean = (hourDiff!! < 2 && hourDiff!! >= 0)
+                var totalPrice: Double
+                when {
                     wrongInterval -> {
-                        "Please select a correct time interval"
+                        text = "Please select a correct time interval."
+                        setOnClickListener {
+                            Helper.showToastMessage(
+                                requireContext(),
+                                text.toString(),
+                                false
+                            )
+                        }
                     }
                     rentAtLeast2Hours -> {
-                        "You can rent for at least 2 hours"
+                        text = "You can rent for at least 2 hours."
+                        setOnClickListener {
+                            Helper.showToastMessage(
+                                requireContext(),
+                                text.toString(),
+                                false
+                            )
+                        }
                     }
                     else -> {
-                        "Rent The ${carDetail.brandName} for ${dayDiffCeil!!.toInt()} days for $${dayDiffCeil!! * carDetail.dailyPrice}"
-                    }
-                }
-                setOnClickListener {
-
-                    when {
-                        rentAtLeast2Hours -> {
-                            Log.d("Time 2 saat", "2 saatten az")
-                        }
-                        wrongInterval -> {
-                            Log.d("Time yanlış aralık", "aralık yanlış")
-                        }
-                        else -> {
-                            val rental: Rental = Rental(0,carDetail.id,12, rentJsonTimeString, returnJsonTimeString);
+                        totalPrice = dayDiffCeil!! * carDetail.dailyPrice
+                        text =
+                            "Rent The ${carDetail.brandName} for ${dayDiffCeil!!.toInt()} days for $${totalPrice}"
+                        setOnClickListener {
+                            val rental: Rental = Rental(
+                                0,
+                                carDetail.id,
+                                12,
+                                rentJsonTimeString,
+                                returnJsonTimeString
+                            )
                             Log.d("rental", rental.rentDate)
                             Log.d("rental", rental.returnDate)
                             Log.d("rental", rental.id.toString())
                             Log.d("rental", rental.customerId.toString())
                             Log.d("rental", rental.carId.toString())
+
+                            totalPrice = dayDiffCeil!! * carDetail.dailyPrice
+                            val rentMessage =
+                                "Rent The ${carDetail.brandName} for ${dayDiffCeil!!.toInt()} days for \$${totalPrice}"
+
                             rentalViewModel.checkIfCarCanBeRented(rental).observe(
                                 viewLifecycleOwner
                             ) { responseRental ->
                                 if (responseRental.success) {
-
                                     Log.d("Message", responseRental.message.toString())
                                     Log.d("Success", responseRental.success.toString())
 
-                                    /*val fragment = NotificationsFragment()
-                                    val bundle = Bundle()
-                                    bundle.putString(
-                                        "value",
-                                        "Rent The ${carDetail.brandName} for ${dayDiffCeil!!.toInt()} days for $${dayDiffCeil!! * carDetail.dailyPrice}"
-                                    )
-                                    val ft: FragmentTransaction =
-                                        requireActivity().supportFragmentManager.beginTransaction()
-                                    ft.replace(R.id.car_detail_fragment_container, fragment)
-                                    ft.addToBackStack(null)
-                                    fragment.arguments = bundle
-                                    ft.commit()*/
-
-
+                                    val action =
+                                        CarDetailFragmentDirections.actionCarDetailFragmentToBlankFragment(
+                                            rentMessage,
+                                            carDetail.id,
+                                            totalPrice.toFloat()
+                                        )
+                                    Navigation.findNavController(it).navigate(action)
                                 } else {
+                                    Helper.showToastMessage(
+                                        requireContext(),
+                                        responseRental.message.toString(),
+                                        true
+                                    )
                                     Log.d("Message", responseRental.message.toString())
                                     Log.d("Success", responseRental.success.toString())
                                 }
                             }
-
                         }
                     }
                 }

@@ -1,7 +1,6 @@
 package com.zoothii.rent_car_system_android.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -11,6 +10,8 @@ import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
 import com.zoothii.rent_car_system_android.databinding.CarDetailCardViewItemBinding
 import com.zoothii.rent_car_system_android.model.CarDetail
+import com.zoothii.rent_car_system_android.util.Constant.Companion.SORT_BY_DAILY_PRICE
+import com.zoothii.rent_car_system_android.util.Constant.Companion.SORT_BY_MODEL_YEAR
 import com.zoothii.rent_car_system_android.util.Helper
 import java.util.*
 import kotlin.collections.ArrayList
@@ -98,20 +99,17 @@ class CarsDetailAdapter(
         this.notifyDataSetChanged()
     }
 
-    fun sortCarsBy(string: String){
-        if (sortFlag && string == Helper.SORT_BY_DAILY_PRICE){
+    fun sortCarsBy(string: String) {
+        if (sortFlag && string == SORT_BY_DAILY_PRICE) {
             carsDetailList.sortBy { carDetail -> carDetail.dailyPrice }
             sortFlag = false
-        }
-        else if (!sortFlag && string == Helper.SORT_BY_DAILY_PRICE){
+        } else if (!sortFlag && string == SORT_BY_DAILY_PRICE) {
             carsDetailList.sortByDescending { carDetail -> carDetail.dailyPrice }
             sortFlag = true
-        }
-        else if (sortFlag && string == Helper.SORT_BY_MODEL_YEAR){
+        } else if (sortFlag && string == SORT_BY_MODEL_YEAR) {
             carsDetailList.sortBy { carDetail -> carDetail.modelYear }
             sortFlag = false
-        }
-        else if (!sortFlag && string == Helper.SORT_BY_MODEL_YEAR){
+        } else if (!sortFlag && string == SORT_BY_MODEL_YEAR) {
             carsDetailList.sortByDescending { carDetail -> carDetail.modelYear }
             sortFlag = true
         }

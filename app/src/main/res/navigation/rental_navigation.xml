@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rental_navigation"
+    app:startDestination="@id/carDetailFragment">
+
+    <fragment
+        android:id="@+id/carDetailFragment"
+        android:name="com.zoothii.rent_car_system_android.ui.car_detail.CarDetailFragment"
+        android:label="fragment_car_detail"
+        tools:layout="@layout/fragment_car_detail" >
+        <action
+            android:id="@+id/action_carDetailFragment_to_blankFragment"
+            app:destination="@id/blankFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.zoothii.rent_car_system_android.ui.BlankFragment"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_blank" >
+        <argument
+            android:name="value"
+            app:argType="string" />
+        <argument
+            android:name="car_id"
+            app:argType="integer" />
+        <argument
+            android:name="total_price"
+            app:argType="float" />
+    </fragment>
+</navigation>

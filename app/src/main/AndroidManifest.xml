@@ -15,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RentCarSystemAndroid">
 
-        <activity android:name=".ui.car_detail.CarDetailActivity" />
+        <activity android:name=".ui.activity.RentalActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
