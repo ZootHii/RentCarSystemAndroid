@@ -19,11 +19,11 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_cars_detail"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/color_app_tool_bar"
-            app:titleTextColor="@color/white">
+            app:titleTextColor="@color/purple_700_2"
+            app:titleTextAppearance="@style/ToolBarTextAppearance">
 
         </androidx.appcompat.widget.Toolbar>
 

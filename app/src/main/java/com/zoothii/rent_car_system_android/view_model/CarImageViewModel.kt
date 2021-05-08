@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zoothii.rent_car_system_android.model.CarImage
-import com.zoothii.rent_car_system_android.model.response.DataResponseModel
+import com.zoothii.rent_car_system_android.model.response_model.DataResponseModel
 import com.zoothii.rent_car_system_android.repository.CarImageRepository
 import com.zoothii.rent_car_system_android.util.Helper
 import dagger.hilt.android.lifecycle.HiltViewModel

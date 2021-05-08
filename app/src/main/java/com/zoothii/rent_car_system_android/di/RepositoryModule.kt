@@ -1,8 +1,10 @@
 package com.zoothii.rent_car_system_android.di
 
+import com.zoothii.rent_car_system_android.remote.service.IAuthsService
 import com.zoothii.rent_car_system_android.remote.service.ICarImagesService
 import com.zoothii.rent_car_system_android.remote.service.ICarsService
 import com.zoothii.rent_car_system_android.remote.service.IRentalsService
+import com.zoothii.rent_car_system_android.repository.AuthRepository
 import com.zoothii.rent_car_system_android.repository.CarImageRepository
 import com.zoothii.rent_car_system_android.repository.CarRepository
 import com.zoothii.rent_car_system_android.repository.RentalRepository
@@ -31,5 +33,11 @@ object RepositoryModule {
     @Provides
     fun provideRentalRepository(rentalsService: IRentalsService): RentalRepository {
         return RentalRepository(rentalsService)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuthRepository(authsService: IAuthsService): AuthRepository {
+        return AuthRepository(authsService)
     }
 }

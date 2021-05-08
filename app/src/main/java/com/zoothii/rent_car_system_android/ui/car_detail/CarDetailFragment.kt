@@ -90,14 +90,14 @@ class CarDetailFragment : Fragment(R.layout.fragment_car_detail) {
                 viewLifecycleOwner
             ) { responseCarDetailData ->
                 if (responseCarDetailData.success) {
-
+                    Log.d("Response", responseCarDetailData.message.toString())
                     carImagesList = responseCarDetailData.data.toCollection(ArrayList())
                     carDetailAdapter.setCarDetails(carImagesList)
                     circleIndicator3.setViewPager(viewPager2)
 
                 } else {
-                    Log.d("Message", responseCarDetailData.message.toString())
-                    Log.d("Success", responseCarDetailData.success.toString())
+                    Log.d("Response", responseCarDetailData.message.toString())
+                    Log.d("Response", responseCarDetailData.success.toString())
                 }
             }
         }
@@ -256,14 +256,14 @@ class CarDetailFragment : Fragment(R.layout.fragment_car_detail) {
                                 viewLifecycleOwner
                             ) { responseRental ->
                                 if (responseRental.success) {
-                                    Log.d("Message", responseRental.message.toString())
-                                    Log.d("Success", responseRental.success.toString())
+                                    Log.d("Response", responseRental.message.toString())
 
                                     val action =
                                         CarDetailFragmentDirections.actionCarDetailFragmentToBlankFragment(
                                             rentMessage,
                                             carDetail.id,
-                                            totalPrice.toFloat()
+                                            totalPrice.toFloat(),
+                                            carDetail
                                         )
                                     Navigation.findNavController(it).navigate(action)
                                 } else {
@@ -272,8 +272,7 @@ class CarDetailFragment : Fragment(R.layout.fragment_car_detail) {
                                         responseRental.message.toString(),
                                         true
                                     )
-                                    Log.d("Message", responseRental.message.toString())
-                                    Log.d("Success", responseRental.success.toString())
+                                    Log.d("Response", responseRental.message.toString())
                                 }
                             }
                         }

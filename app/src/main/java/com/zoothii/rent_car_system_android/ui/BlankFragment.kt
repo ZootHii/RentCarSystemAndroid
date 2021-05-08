@@ -1,6 +1,7 @@
 package com.zoothii.rent_car_system_android.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.zoothii.rent_car_system_android.R
@@ -13,7 +14,8 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
 
         val binding = FragmentBlankBinding.bind(view)
         arguments?.let {
-            binding.text.text = BlankFragmentArgs.fromBundle(it).value + " yeah it works"
+            binding.text.text = BlankFragmentArgs.fromBundle(it).value + " yeah it works" + BlankFragmentArgs.fromBundle(it).car.colorName
+            Log.d("PARCE", BlankFragmentArgs.fromBundle(it).car.previewFirstImage.toString())
         }
     }
 }

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="ToolBarTextAppearance">
+        <item name="android:fontFamily">@font/audiowide</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
 
     <!--for search-->
 <!--    <style name="ActionButton" parent="@android:style/Widget.ActionButton">

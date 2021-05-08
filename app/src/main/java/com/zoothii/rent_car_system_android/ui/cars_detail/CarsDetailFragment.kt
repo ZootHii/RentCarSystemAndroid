@@ -4,7 +4,9 @@ package com.zoothii.rent_car_system_android.ui.cars_detail
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.TextureView
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.ContentLoadingProgressBar
@@ -33,7 +35,6 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
     private lateinit var fragmentRoot: View
     private lateinit var toolbar: Toolbar
     private lateinit var progressBar: ContentLoadingProgressBar
-    private val titleToolbar = "Cars"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,8 +47,12 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
             recyclerView = recyclerViewCarsDetail.apply {
                 carCardAdapter =
                     CarsDetailAdapter(fragmentCarsDetailBinding.root.context) { carDetail, carsDetailList ->
-                        val intent = Intent(activity, RentalActivity::class.java)
+                        val intent = Intent(requireActivity(), RentalActivity::class.java)
                         Helper.data = carDetail
+                        // intent.putExtra("carDetail", carDetail) // does not work with big data
+//                        val bundle = Bundle()
+//                        bundle.putParcelable("carDetail", carDetail)
+//                        intent.putExtras(bundle)
                         startActivity(intent)
 
                     }
@@ -56,7 +61,7 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
                 setHasFixedSize(true) // TODO for more optimized recyclerview
             }
             toolbar = toolbarCarsDetail.apply {
-                title = titleToolbar
+                title = getString(R.string.title_cars_detail)
                 inflateMenu(R.menu.action_bar_cars_details_menu)
                 (menu.findItem(R.id.action_search).actionView as SearchView).apply {
                     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -79,6 +84,7 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
             viewLifecycleOwner
         ) { responseCarDetailData ->
             if (responseCarDetailData.success) {
+                Log.d("Response", responseCarDetailData.message.toString())
 
                 carDetailList = responseCarDetailData.data.toCollection(ArrayList())
 
@@ -95,8 +101,8 @@ class CarsDetailFragment : Fragment(R.layout.fragment_cars_detail) {
                 Helper.progressBarShow(progressBar, false)
 
             } else {
-                Log.d("Message", responseCarDetailData.message.toString())
-                Log.d("Success", responseCarDetailData.success.toString())
+                Log.d("Response", responseCarDetailData.message.toString())
+
             }
         }
     }

@@ -28,5 +28,8 @@
         <argument
             android:name="total_price"
             app:argType="float" />
+        <argument
+            android:name="car"
+            app:argType="com.zoothii.rent_car_system_android.model.CarDetail" />
     </fragment>
 </navigation>
